@@ -1,0 +1,218 @@
+---
+title: "NIPALS"
+author: "Kevin Wright"
+date: "`r Sys.Date()`"
+bibliography: nipals.bib
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=FALSE,results="hide"}
+options(width=90)
+```
+
+# Singular value decomposition
+
+The principal components of $\bf X'X$, where $\bf X$ is a column-centered matrix,
+can be found by several methods.  
+One method is to apply the SVD (Singular Value Decomposition) to $\bf X$,
+$$
+\bf X = U S V',
+$$
+where $\bf U$ $(n \times r)$ and $\bf V$ $(k \times r)$ are orthogonal
+matrices and $\bf S$ is a diagonal matrix of $r$ singular values.
+
+```{r }
+B <- data.frame(E1= c(50, 55, 65, 50, 60, 65, 75),
+                E2= c(67, 71, 76, 80, 82, 89, 95),
+                E3= c(90, 93, 95, 102, 97, 106, 117),
+                E4= c(98, 102, 105, 130, 135, 137, 133),
+                E5= c(120, 129, 134, 138, 151, 153, 155))
+B = as.matrix(B)
+B2 <- B
+B2[1,1] <- B2[2,1] <- NA
+B
+Bc <- scale(B, center=TRUE, scale=FALSE)
+Bc.svd <- svd(Bc)
+```
+
+SVD does not allow missing values in the data, and does a complete decomposition that finds all principal components at once.
+
+# The NIPALS algorithm for PCA
+
+The NIPALS (Nonlineear Iterative Partial Least Squares) algorithm can be used
+to find the principal components of $\bf X'X$ as the decomposition
+$$
+\bf X = \bf T \bf P '
+$$
+where the columns of $\bf T$ are called *scores* and the columns of
+$\bf P$ (the rows of $\bf P'$) are called the *loadings*.
+
+The algorithm begins by initializing $h=1$ and $\bf X_h = \bf X$,  then proceeds through the following steps:
+
+1. Choose $\bf t_h$ as any column of $\bf X_h$.
+2. Compute loadings $\bf p_h = X_h' t_h / t_h' t_h$.
+3. Let $\bf p_h = p_h / sqrt(p_h' p_h) $.
+4. Compute scores $\bf t_h = X_h p_h / p_h' p_h$.
+
+Repeat (3) and (4) until convergence for the $h^{th}$ principal component.
+
+Let $\bf X_{h+1} = \bf X_h - t_h p_h'$.
+Let $\lambda_h = \bf t_h' t$ (eigen value)
+Let $h = h + 1$ and repeat.
+
+Assemble the columns of $\bf T$ from the $\bf t_h$ and the columns of
+$\bf P$ from the vectors $\bf p_h$.
+
+The resulting PCs may be scaled in different ways. One way to scale the PCA solution is to define the loadings $\bf P = V$ and $\bf T = U'S$.
+
+A modification of the NIPALS algorithm to accommodate missing values is
+fairly straightforward.  See @martens2001multivariate (p. 381).
+
+The initial value of $\bf t_h$ might be the column of $\bf X_h$ with the fewest
+missing values or perhaps the largest standard deviation.  In the alternating
+least-squares calculation of $\bf t_h$ and $\bf p_h$, simply ignore values that
+are missing.
+
+If, for a certain variable $k$ [column of $\bf X$], a missing value is encountered in $\bf X$ for a certain object $i$ [row of $\bf X$], then the corresponding elements in $t_{ih}$ must also be skipped in equation 5.9a, which for $\bf X$-variable $k$ is
+$$ 
+\bf p_{hk} = X_{k,h-1} t_h'  / (t_h' t_h) 
+$$
+
+If, for a certain sample i [row of $\bf X$], a missing value is encountered in $\bf X$ for a certain variable $k$ [column of $\bf X$], then the corresponding elements in $\bf p_{kh}$ must also be skipped in equation 5.9b, which for sample $i$ is
+$$ 
+\bf t_{ih} = X_{i,h-1} p_h / (p_h' p_h) 
+$$
+This method may have convergence problems if there are many missing values.
+
+## Gram-Schmidt orthogonalization
+
+SAS says: The iterative method based on Gram-Schmidt orthogonalization (ITERGS) of Andrecut (2009) overcomes the issue of loss of orthogonality in the NIPALS method by applying Gram-Schmidt reorthogonalization correction to both the loadings and the scores at each iteration step:
+
+$$
+p_c = p - P_h P_h' p \\
+t_c = t - T_h T_h' t
+$$
+where $P_h$ and $T_h$ are the loadings and scores matrices based on the first $h$ principal components.
+
+## Examples
+
+```{r , eval=0}
+require("nipals")
+m1 <- nipals(B)
+m2 <- nipals(B2)
+#t <- Xc.pca$x
+#p <- Xc.pca$rotation
+```
+In theory, the matrix $\bf P$ is orthogonal ($\bf P' P = I$)
+and therefore $\bf T = X P$ is simply an
+orthogonal rotation of $\bf X$ without any scaling changes.
+If there are missing values, then the calculation of approximate PCs causes numerical errors to accumulate, so that in practice only the first few components can be accurately calculated. 
+Also in theory, T'T=I (if eigenvalues are removed from T), but missing values 
+
+In this example, the first 3 PCs are fairly orthogonal, but the 4th and 5th PC are not so good.
+
+```{r}
+# complete data does have orthogonal matrices
+round( t(m1$loadings) %*% m1$loadings, 3)
+round( t(m1$scores) %*% m1$scores, 3)
+# missing data does not have orthogonal matrices
+round( t(m2$loadings) %*% m2$loadings, 3)
+round( t(m2$scores) %*% m2$scores, 3)
+```
+
+## Biplot with genotype focus
+
+When $\bf X$ is a genotype-by-environment matrix, a *genotype-focused*
+biplot is easily obtained.  The genotype coordinates are can be obtained
+from the SVD using the first two columns of $\bf G_{gf} = U S$
+or equivalently from NIPALS $\bf G_{gf} = T$.
+
+```{r , eval=0}
+u <- Xc.svd$u
+s <- diag(Xc.svd$d)
+v <- Xc.svd$v
+(u %*% s)[,1:2]
+t[,1:2]
+```
+The environment coordinates are the first two colunns of
+$\bf E_{gf} = V$ (from the SVD) or
+$\bf E_{gf} = P$ (from NIPALS).
+```{r , eval=0}
+v[,1:2]
+p[,1:2]
+```
+
+## Biplot with environment focus
+
+For an *environment-focused* biplot, a little more effort is needed as
+the eigenvalues from NIPALS are also required.  The square root of the NIPALS
+eigenvalues are the same as the SVD singular values.
+
+The genotype coordinates are the first two columns of
+$\bf G_{ef} = U $ (from SVD) or
+$\bf G_{ef} = T \Lambda^{-1/2}$ from NIPALS, where
+$\bf \Lambda$ is a diagonal matrix of the eigenvalues.
+```{r , eval=0}
+u[,1:2]
+sv <- sqrt(Xc.pca$eig)
+(t %*% diag(1/sv))[,1:2]
+```
+The environment coordinates are
+$\bf E_{ef} = V$ (from SVD) or
+$\bf E_{ef} = P \Lambda^{1/2}$ (from NIPALS):
+```{r , eval=0}
+(v %*% s)[,1:2]
+(p %*% diag(sv))[,1:2]
+```
+
+## Comments on biplots
+
+Note that GGE biplots are environment-focused.  In particular, this provides the interpretation that the correlation of genotype performance in two environments is approximated by the cosine of the angle between the vectors for those two environments.
+
+The SVD and NIPALS methods provide the same
+principal components for complete-data, except that a
+principal component from SVD and the corresponding principal component from
+NIPALS might point in opposite directions (differ by a factor of $-1$) as in some of the examples above.  The
+corresponding biplots would therefore be mirror-reversed along that component.
+For biplots from SVD and NIPALS that are visually consistent, each principal component can be directed to point in a direction that is positively correlated with the overall genotype means.  In other words, if the correlation of the genotype means and the ordinate of the genotypes along the principal component is negative, the principal component is multiplied by $-1$.
+
+As with all biplots, the environment vectors can be arbitrarily scaled so that the genotypes and environments uses a similar amount of area on the plot.
+The algorithm that physically centers the biplot and scales it on the page is not perfect and has opportunities for improvement.
+
+
+In the following example, missing values are introduced into $\bf X$.
+The `scale` function does not accept missing values, so that centering and standardizing of the columns needs to be done using `sweep`.
+```{r , eval=0}
+X2 <- X
+X2[3:5,2] <- X2[3,3] <- NA
+X2c <- sweep(X2, 2, colMeans(X2, na.rm=TRUE))
+print(X2c)
+#sd <- apply(X2c, 2, sd, na.rm=TRUE)
+#X2s <- sweep(X2c, 2, sd, "/")
+```
+When there are missing values, the rotation matrix from NIPALS is no longer strictly orthogonal
+so that $\bf P' P \neq \bf I$:
+```{r , eval=0}
+X2c.pca <- rnipals(X2c)
+round(t(X2c.pca$rotation) %*% X2c.pca$rotation, 2)
+```
+The skewness of non-orthogonality probably depends on the amount of missing
+data and the magnitude of the missing values (in the complete data).
+```{r biplotmiss, eval=0}
+biplot(gge(X2, method='nipals'), diagnostics=FALSE, comps=list(c(1,2)))
+```
+
+
+
+
+# Appendix
+
+```{r finish, echo=FALSE, results="asis"}
+toLatex(sessionInfo(), locale=FALSE)
+```
+
+# Bibliography
