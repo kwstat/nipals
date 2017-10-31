@@ -5,11 +5,12 @@
 \title{Principal component analysis by NIPALS, non-linear iterative partial least squares}
 \usage{
 nipals(x, ncomp = min(nrow(x), ncol(x)), center = TRUE, scale = TRUE,
-  maxiter = 500, tol = 1e-06, startcol = 0, reconstruct = FALSE,
-  force.na = FALSE, verbose = FALSE)
+  maxiter = 500, tol = 1e-06, startcol = 0, fitted = FALSE,
+  force.na = FALSE, gramschmidt = TRUE, verbose = FALSE)
 }
 \arguments{
-\item{x}{Numerical matrix for which to compute SVD. Missing values allowed.}
+\item{x}{Numerical matrix for which to find principal compontents. 
+Missing values are allowed.}
 
 \item{ncomp}{Maximum number of principal components to extract from x.}
 
@@ -25,19 +26,22 @@ iterations for each principal component.}
 
 \item{startcol}{If 0, start the iterations for each principal component
 with the column of x that has maximum variation.
-Otherwise, start with the spcified column.}
+Otherwise, start with the spcified column number.}
 
-\item{reconstruct}{Default FALSE. If TRUE, return the reconstructed value of x.}
+\item{fitted}{Default FALSE. If TRUE, return the fitted (reconstructed) value of x.}
 
 \item{force.na}{Default FALSE. If TRUE, force the function to use the
-method when there are missing values in x.}
+method for missing values, even if there are no missing values in x.}
+
+\item{gramschmidt}{Default TRUE. If TRUE, perform Gram-Schmidt 
+orthogonalization at each iteration.}
 
 \item{verbose}{Default FALSE. Use TRUE or 1 to show some diagnostics,
 2 for a bit more diagnostics.}
 }
 \value{
 A list with components \code{eig}, \code{scores}, \code{loadings}, 
-\code{ncomp}, \code{R2}.
+\code{ncomp}, \code{R2}, \code{xhat}.
 }
 \description{
 Used for finding principal components of a numeric matrix.

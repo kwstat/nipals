@@ -4,13 +4,15 @@
 [![CRAN_Downloads](https://cranlogs.r-pkg.org/badges/nipals)](https://cranlogs.r-pkg.org/badges/nipals)
 [![Research software impact](http://depsy.org/api/package/cran/nipals/badge.svg)](http://depsy.org/package/r/nipals)
 
+The 'nipals' package provides a single function to perform Principal Components Analysis of a matrix using Non-linear Iterative Partial Least Squares. NIPALS has been implemented several times in R packages.  This package strives to be the best implementation.
+
 Key features:
   
-* Allows missing values in the data.
+* Missing values are allowed.
 * Uses Gram-Schmidt to ensure orthogonal principal components.
 * Carefully optimized for speed.
 * Flexible options.
-* Unit tests.
+* Vignettes and unit tests.
 
 ## Installation
 
@@ -26,7 +28,12 @@ devtools::install_github("kwstat/nipals")
 ## Usage
 
 Vignettes:
-  [Introduction to the nipals package](https://rawgit.com/kwstat/nipals/master/vignettes/nipals_examples.html)
+
+  [NIPALS algorithm](https://rawgit.com/kwstat/nipals/master/vignettes/nipals_algorithm.html)
+
+  [Comparing NIPALS functions in R](https://rawgit.com/kwstat/nipals/master/vignettes/nipals_comparisons.html)
+
+  [NIPALS optimization notes](https://rawgit.com/kwstat/nipals/master/vignettes/nipals_optimization.html)
 
 ```R
 require(nipals)

@@ -1,13 +1,21 @@
 ---
-title: "Comparing NIPALS functions"
+title: "Comparing NIPALS functions in R"
 author: "Kevin Wright"
 date: "October 27, 2017"
-output: html_document
+output:
+  html_document:
+    highlight: tango
+vignette: >
+  %\VignetteIndexEntry{Comparing NIPALS functions in R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-There are at least 4 R packages with a function for performing NIPALS on a matrix that contains missing values (and several other packages have functions which do not allow missing values).  The functions have slightly different scalings for the returned values, and were written with different coding styles.
+There are at least 4 R packages with a function for performing NIPALS on a matrix that contains missing values (and several other packages have functions which do not allow missing values).  These functions have slightly different scalings for the returned values, and were written with different coding styles.
 
 With careful attention to some of the scaling details of the returned values, all 4 packages produce the same results.  However, there are dramatic differences in performance.
+
+NOTE! These comparisons were made before `nipals::nipals` gained the Gram-Schmidt orthogonalization by default.
 
 # Example data
 
@@ -37,7 +45,7 @@ Since principal components are only unique up to a change of sign, a small funct
 
 # ade4
 
-The `ade4` package uses a scaling of the data which divides by `n` instead of `n-1`, so we need to scale the data by hand before using the `nipals` package.
+The `ade4` package uses a scaling of the data which divides by `n` instead of `n-1`, so we need to scale the data by hand before using the `nipals` package. (Update, the scaling used in `ade4` changed after 30 Oct 2017.)
 
 ```{r, eval=FALSE}
 library(ade4)
@@ -49,7 +57,7 @@ B2a <- apply(B2, 2, function(x) {
   x <- x / ( sd(x, na.rm=TRUE) * (n-1) / n )
 })
 
-mnip <- nipals::nipals(B2a, ncomp=5, center=FALSE, scale=FALSE, reconstruct=TRUE, maxiter=500, tol=1e-9)
+mnip <- nipals::nipals(B2a, ncomp=5, center=FALSE, scale=FALSE, fitted=TRUE, maxiter=500, tol=1e-9, gramschmidt=FALSE)
 ```
 
 The eigenvalues reported by `ade4` are the squared singular values divided by $n-1$.
@@ -83,7 +91,7 @@ same( sweep(mnip$scores, 2, mnip$eig, "*"), made$li)
 library(plsdepot)
 mpls <- plsdepot::nipals(B2, comps=5)
 library(nipals)
-mnip <- nipals::nipals(B2a, ncomp=5, maxiter=100, tol=1e-6)
+mnip <- nipals::nipals(B2a, ncomp=5, maxiter=100, tol=1e-6, gramschmidt=FALSE)
 ```
 
 ```{r, eval=FALSE}
@@ -113,7 +121,7 @@ same( sweep(mnip$scores, 2, mnip$eig, "*"), mpls$scores)
 ```{r, eval=FALSE}
 library(mixOmics)
 library(nipals)
-mnip <- nipals::nipals(B2)
+mnip <- nipals::nipals(B2, gramschmidt=FALSE)
 mmix <- mixOmics::nipals(scale(B2), ncomp=5)
 ```
 ```{r, eval=FALSE}
@@ -177,7 +185,7 @@ system.time(mixOmics::nipals(scale(Bbig2), ncomp=100)) # 100 factors
 The `nipals::nipals` function was optimized through extensive testing and has the fastest execution time of all.
 
 ```{r, eval=FALSE}
-system.time(nipals::nipals(Bbig2, ncomp=100)) # 100 factors
+system.time(nipals::nipals(Bbig2, ncomp=100, gramschmidt=FALSE)) # 100 factors
 #   user  system elapsed 
 #   2.74    0.00    2.75 
 ```

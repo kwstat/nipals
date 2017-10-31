@@ -3,7 +3,7 @@ context("uscrime data")
 # these examples come from the documentation for the SAS PCA procedure
 # http://documentation.sas.com/?docsetId=casstat&docsetVersion=8.11&docsetTarget=viyastat_pca_gettingstarted.htm&locale=en
 
-test_that("NIPALS decomposition of uscrime data matches SAS", {
+test_that("NIPALS decomposition of 'uscrime' data matches SAS", {
   data(uscrime)
   # SAS discards rows with missinng values
   dat <- uscrime[complete.cases(uscrime), ]

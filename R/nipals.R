@@ -47,7 +47,7 @@ m4$eig
 #' with the column of x that has maximum variation.
 #' Otherwise, start with the spcified column number.
 #'
-#' @param reconstruct Default FALSE. If TRUE, return the reconstructed value of x.
+#' @param fitted Default FALSE. If TRUE, return the fitted (reconstructed) value of x.
 #'
 #' @param force.na Default FALSE. If TRUE, force the function to use the
 #' method for missing values, even if there are no missing values in x.
@@ -55,8 +55,7 @@ m4$eig
 #' @param gramschmidt Default TRUE. If TRUE, perform Gram-Schmidt 
 #' orthogonalization at each iteration.
 #' 
-#' @param verbose Default FALSE. Use TRUE or 1 to show some diagnostics,
-#' 2 for a bit more diagnostics.
+#' @param verbose Default FALSE. Use TRUE or 1 to show some diagnostics.
 #' 
 #' @return A list with components \code{eig}, \code{scores}, \code{loadings}, 
 #' \code{ncomp}, \code{R2}, \code{xhat}.
@@ -76,20 +75,16 @@ m4$eig
 #'               75, 95, 117, 133, 155), ncol=5, byrow=TRUE)
 #' rownames(B) <- c("G1","G2","G3","G4","G5","G6","G7")
 #' colnames(B) <- c("E1","E2","E3","E4","E5")
-#' B = scale(B, scale=FALSE) # column-centered
 #' dim(B) # 7 x 5
 #' p1 <- nipals(B)
 #' dim(p1$scores) # 7 x 5
 #' dim(p1$loadings) # 5 x 5
-#' #round(p1$scores %*% diag(p1$eig) %*% t(p1$loadings) - p1$completeObs,2) # 0
 #' 
 #' B2 = B
 #' B2[1,1] = B2[2,2] = NA
 #' p2 = nipals(B2)
-#' #svd(p2$completeObs) # nearly identical to p2
 #' 
-#' @author Kevin Wright, using ideas from the pcaMethods and 
-#' mixOmics packages.
+#' @author Kevin Wright.
 #' 
 #' @importFrom stats sd var
 #' @export
@@ -99,11 +94,12 @@ nipals <- function(x,
                    maxiter=500,
                    tol=1e-6,
                    startcol=0,
-                   reconstruct=FALSE,
+                   fitted=FALSE,
                    force.na=FALSE,
                    gramschmidt=TRUE,
                    verbose=FALSE) {
 
+  x <- as.matrix(x) # in case it is a data.frame
   nc <- ncol(x)
   nr <- nrow(x)
   x.orig <- x # Save x for replacing missing values
@@ -114,7 +110,7 @@ nipals <- function(x,
   row.count <- apply(x, 1, function(x) sum(!is.na(x)))
   if(any(row.count==0)) stop("At least one row is all NAs")
   
-  # center / scale manually
+  # center / scale
   if(center) {
     cmeans <- colMeans(x, na.rm=TRUE)
     x <- sweep(x, 2, cmeans, "-")
@@ -139,7 +135,7 @@ nipals <- function(x,
   has.na <- any(x.miss)
   if(force.na) has.na <- TRUE # 
 
-
+  # Calculate PC h
   for(h in 1:ncomp) {
     
     # take a column of x, call it th
@@ -238,7 +234,7 @@ nipals <- function(x,
   eig = sqrt(eig)
   scores = sweep(scores, 2, eig, "/")
 
-  if(reconstruct) {
+  if(fitted) {
     # re-construction of x using ncomp principal components
     xhat <- tcrossprod( tcrossprod(scores,diag(eig)), loadings)
     if(scale) xhat <- sweep(xhat, 2, csds, "*")
@@ -254,8 +250,7 @@ nipals <- function(x,
   out <- list(eig=eig,
               scores=scores, 
               loadings=loadings,
-              #completeObs=completeObs,
-              xhat=xhat,
+              fitted=xhat,
               ncomp=ncomp,
               R2=R2)
   return(out)
