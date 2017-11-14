@@ -169,7 +169,7 @@ The `plsdepot::nipals` function is fast enough that all 100 PCs can be calculate
 system.time(plsdepot::nipals(Bbig2, comps=1)) # Only 1 factor !
 #   user  system elapsed 
 #    0.5     0.0     0.5 
-system.time(plsdepot::nipals(Bbig2, comps=100))
+system.time(plsdepot::nipals(Bbig2, comps=100)) # 100 factors
 #   user  system elapsed 
 #  30.19    0.00   30.18 
 ```
@@ -182,7 +182,7 @@ system.time(mixOmics::nipals(scale(Bbig2), ncomp=100)) # 100 factors
 #  20.70    0.00   20.81 
 ```
 
-The `nipals::nipals` function was optimized through extensive testing and has the fastest execution time of all.
+The `nipals::nipals` function was optimized through extensive testing and is faster by a factor of 7 times!
 
 ```{r, eval=FALSE}
 system.time(nipals::nipals(Bbig2, ncomp=100, gramschmidt=FALSE)) # 100 factors

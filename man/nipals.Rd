@@ -36,8 +36,7 @@ method for missing values, even if there are no missing values in x.}
 \item{gramschmidt}{Default TRUE. If TRUE, perform Gram-Schmidt 
 orthogonalization at each iteration.}
 
-\item{verbose}{Default FALSE. Use TRUE or 1 to show some diagnostics,
-2 for a bit more diagnostics.}
+\item{verbose}{Default FALSE. Use TRUE or 1 to show some diagnostics.}
 }
 \value{
 A list with components \code{eig}, \code{scores}, \code{loadings}, 
@@ -60,17 +59,14 @@ B <- matrix(c(50, 67, 90, 98, 120,
               75, 95, 117, 133, 155), ncol=5, byrow=TRUE)
 rownames(B) <- c("G1","G2","G3","G4","G5","G6","G7")
 colnames(B) <- c("E1","E2","E3","E4","E5")
-B = scale(B, scale=FALSE) # column-centered
 dim(B) # 7 x 5
 p1 <- nipals(B)
 dim(p1$scores) # 7 x 5
 dim(p1$loadings) # 5 x 5
-#round(p1$scores \%*\% diag(p1$eig) \%*\% t(p1$loadings) - p1$completeObs,2) # 0
 
 B2 = B
 B2[1,1] = B2[2,2] = NA
 p2 = nipals(B2)
-#svd(p2$completeObs) # nearly identical to p2
 
 }
 \references{
@@ -79,6 +75,5 @@ related models by iterative least squares. In Multivariate
 Analysis (Ed., P.R. Krishnaiah), Academic Press, NY, 391-420.
 }
 \author{
-Kevin Wright, using ideas from the pcaMethods and 
-mixOmics packages.
+Kevin Wright.
 }

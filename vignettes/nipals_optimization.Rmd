@@ -212,3 +212,6 @@ system.time(m2 <- nipals(Bbig2, ncomp=100, gramschmidt=TRUE))
 #   4.29    0.03    4.37 
 ```
 
+### R vs C comment
+
+The `nipals()` function make heavy use of the `crossprod()` and `tcrossprod()` functions, which have been optimized.  Naive coding of the NIPALS algorithm in C could easily be *less* efficient than the R version used in this package.
