@@ -45,7 +45,7 @@ Since principal components are only unique up to a change of sign, a small funct
 
 # ade4
 
-The `ade4` package uses a scaling of the data which divides by `n` instead of `n-1`, so we need to scale the data by hand before using the `nipals` package. (Update, the scaling used in `ade4` changed after 30 Oct 2017.)
+The `ade4` package uses a scaling of the data which divides by `n` instead of `n-1`, so we need to scale the data by hand before using the `nipals` package. NOTE! the scaling used in `ade4` changed sometime after 30 Oct 2017. These results use the old scaling.
 
 ```{r, eval=FALSE}
 library(ade4)
