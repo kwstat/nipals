@@ -1,5 +1,30 @@
 context("misc")
 
+test_that("Fitted values", {
+  # Published examples of NIPALS with missing values are 
+  # extremely rare.  Here is an example of estimating the missing values
+  # using XLSTAT (details on methodology are limited)
+  # https://help.xlstat.com/customer/en/portal/articles/2062415-missing-data-imputation-using-nipals-in-excel?b_id=9283
+  dat <- data.frame(make = c("Honda civic", "Renault 19", "Fiat Tipo",
+                             "Peugeot 405", "Renault 21", "Citroen BX"),
+                    capacity = c(1396, 1721, 1580, 1769, 2068, 1769L),
+                    power = c(90, 92, 83, 90, 88, 90L),
+                    speed = c(174, 180, 170, 180, 180, 182L),
+                    weight = c(850, 965, 970, 1080, 1135, 1060L),
+                    length = c(369, 415, 395, 440, 446, 424L),
+                    width = c(166, 169, 170, 169, 170, 168L))
+  # create missing values along the diagonal
+  datna <- dat
+  datna[1,2] <- datna[2,3] <- datna[3,4] <- datna[4,5] <- datna[5,6] <- datna[6,7] <- NA
+
+  library(nipals)
+  # These settings give results similar to XLstat 
+  m1 <- nipals(datna[,-1], fitted=TRUE, gramschmidt=FALSE, tol=1e-11)
+  expect_equal(diag(m1$fitted),
+            c(1365.236, 88.600, 175.798, 1051.698, 432.470, 168.554), # xlstat
+            tol=1e-5)
+})
+
 test_that("Code coverage of function arguments", {
   B <- matrix(c(50, 67, 90, 98, 120,
                 55, 71, 93, 102, 129,

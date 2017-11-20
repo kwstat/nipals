@@ -1,8 +1,8 @@
 Package: nipals
 Title: Principal Components Analysis using NIPALS with Gram-Schmidt Orthogonalization
-Version: 0.2
+Version: 0.3
 Authors@R: person("Kevin", "Wright", email = "kw.stat@gmail.com", role = c("aut", "cre"))
-Description: Principal Components Analysis of a matrix using Non-linear Iterative Partial Least Squares with Gram-Schmidt orthogonalization of the scores and loadings. Optimized for speed.
+Description: Principal Components Analysis of a matrix using Non-linear Iterative Partial Least Squares with Gram-Schmidt orthogonalization of the scores and loadings. Optimized for speed. See Andrecut (2009) <doi:10.1089/cmb.2008.0221>.
 Depends: R (>= 3.4.0)
 License: GPL-3
 Encoding: UTF-8
