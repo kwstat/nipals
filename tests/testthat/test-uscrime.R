@@ -40,7 +40,7 @@ test_that("NIPALS decomposition of 'uscrime' data matches SAS", {
 
 })
 
-test_that("SVD and NIPALS match for uscrime data", {
+test_that("NIPALS and SVD match for complete uscrime data", {
   data(uscrime)
   dat <- uscrime[complete.cases(uscrime), ]
   dat <- as.matrix(dat[ , -1])

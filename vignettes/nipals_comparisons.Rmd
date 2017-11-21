@@ -45,7 +45,9 @@ Since principal components are only unique up to a change of sign, a small funct
 
 # ade4
 
-The `ade4` package uses a scaling of the data which divides by `n` instead of `n-1`, so we need to scale the data by hand before using the `nipals` package. NOTE! the scaling used in `ade4` changed sometime after 30 Oct 2017. These results use the old scaling.
+The `ade4` package uses a scaling of the data which divides by `n` instead of `n-1`, so we need to scale the data by hand before using the `nipals` package. 
+
+NOTE! the scaling used in `ade4` changed sometime after these calculations were performed 30 Oct 2017. These results use the old scaling.
 
 ```{r, eval=FALSE}
 library(ade4)
@@ -94,13 +96,15 @@ library(nipals)
 mnip <- nipals::nipals(B2a, ncomp=5, maxiter=100, tol=1e-6, gramschmidt=FALSE)
 ```
 
+The `plsdepot` package reports squared singular values.
+
 ```{r, eval=FALSE}
 # eigenvalues
 mnip$eig
 # [1] 4.8762167 2.0442757 1.0728055 0.2369607 0.1432779
 mpls$values[,1]
 # [1] 3.963172007 0.696484184 0.191839875 0.009366425 0.003421661
-same(m.nip$eval, sqrt(mpls$values[,1] * 6) )
+same(mnip$eig, sqrt(mpls$values[,1] * 6) )
 # TRUE
 
 # P loadings
@@ -124,6 +128,7 @@ library(nipals)
 mnip <- nipals::nipals(B2, gramschmidt=FALSE)
 mmix <- mixOmics::nipals(scale(B2), ncomp=5)
 ```
+
 ```{r, eval=FALSE}
 # eigenvalues
 mnip$eig
@@ -155,7 +160,7 @@ Bbig2 <- Bbig
 Bbig2[1,1] <- NA
 ```
 
-The `ade4::nipals` function uses `for` loops to loop of the columns of `X`, which results in very slow execution even when calculating only 1 principal component.
+The `ade4::nipals` function uses `for` loops to loop over the columns of `X`, which results in very slow execution even when calculating only 1 principal component.
 
 ```{r, eval=FALSE}
 system.time(ade4::nipals(Bbig2, nf=1)) # Only 1 factor!
@@ -182,7 +187,7 @@ system.time(mixOmics::nipals(scale(Bbig2), ncomp=100)) # 100 factors
 #  20.70    0.00   20.81 
 ```
 
-The `nipals::nipals` function was optimized through extensive testing and is faster by a factor of 7 times!
+The `nipals::nipals` function was optimized through extensive testing and is about 5 times faster!
 
 ```{r, eval=FALSE}
 system.time(nipals::nipals(Bbig2, ncomp=100, gramschmidt=FALSE)) # 100 factors
