@@ -173,9 +173,9 @@ nipals <- function(x,
       } else {
         ph = crossprod(x,th) / sum(th*th)
       }
+      
       # Gram Schmidt orthogonalization p = p - PhPh'p
       if(gramschmidt && h>1) {
-        #browser()
         ph <- ph - PPp %*% ph
       }
       # normalize to unit length p = p / p'p
@@ -192,9 +192,9 @@ nipals <- function(x,
       } else {
         th = x %*% ph / sum(ph*ph)
       }
+
       # Gram Schmidt # t = t - T_h T_h' t
       if(gramschmidt && h>1) {
-        #browser()
         th <- th - TTp %*% th
       }
       
