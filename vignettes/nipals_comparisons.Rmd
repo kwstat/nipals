@@ -3,12 +3,11 @@ title: "Comparing NIPALS functions in R"
 author: "Kevin Wright"
 date: "October 27, 2017"
 output:
+  pdf_document: default
   html_document:
     highlight: tango
-vignette: >
-  %\VignetteIndexEntry{Comparing NIPALS functions in R}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+vignette: |
+  %\VignetteIndexEntry{Comparing NIPALS functions in R} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
 ---
 
 There are at least 4 R packages with a function for performing NIPALS on a matrix that contains missing values (and several other packages have functions which do not allow missing values).  These functions have slightly different scalings for the returned values, and were written with different coding styles.
@@ -45,9 +44,7 @@ Since principal components are only unique up to a change of sign, a small funct
 
 # ade4
 
-The `ade4` package uses a scaling of the data which divides by `n` instead of `n-1`, so we need to scale the data by hand before using the `nipals` package. 
-
-NOTE! the scaling used in `ade4` changed sometime after these calculations were performed 30 Oct 2017. These results use the old scaling.
+The `ade4` package uses a maximum-likelihood scaling of the data which divides by `n` instead of `n-1`, so we need to scale the data by hand before using the `nipals` package. Note: only for ade4 version >= 1.7-10.
 
 ```{r, eval=FALSE}
 library(ade4)
@@ -56,7 +53,7 @@ made <- ade4::nipals(B2, nf=5, rec=TRUE, niter=500, tol=1e-9)
 B2a <- apply(B2, 2, function(x) {
   n <- sum(!is.na(x))
   x <- x - mean(x, na.rm=TRUE)
-  x <- x / ( sd(x, na.rm=TRUE) * (n-1) / n )
+  x <- x / ( sd(x, na.rm=TRUE) * sqrt((n-1) / n ))
 })
 
 mnip <- nipals::nipals(B2a, ncomp=5, center=FALSE, scale=FALSE, fitted=TRUE, maxiter=500, tol=1e-9, gramschmidt=FALSE)
@@ -71,9 +68,9 @@ same(B2a, as.matrix(made$tab))
 
 # eigenvalues, ade4 uses squared singular values / n-1
 mnip$eig
-# [1] 5.7452644 2.4886658 1.2653580 0.2839543 0.1704078
+# [1] 5.2913781 2.2555596 1.1651281 0.2590878 0.1563175
 made$eig
-# [1] 5.50135937 1.03224198 0.26685613 0.01343861 0.00483985
+# [1] 4.666454778 0.847924398 0.226254436 0.011187921 0.004072542
 same(mnip$eig ^ 2 / (nrow(B2a)-1), made$eig)
 # TRUE
 

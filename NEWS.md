@@ -5,4 +5,4 @@ The `nipals` function was split off from the `gge` package, extensively optimize
 
 ## Todo
 
-Find published example of NIPALS with missing data.
+Find published example of NIPALS with missing data. (Found 1)

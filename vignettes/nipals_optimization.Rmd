@@ -3,6 +3,7 @@ title: "NIPALS optimization notes"
 author: "Kevin Wright"
 date: "October 25, 2017"
 output:
+  pdf_document: default
   html_document:
     highlight: tango
 vignette: >

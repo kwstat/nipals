@@ -1,15 +1,14 @@
 ---
-title: "NIPALS algorithm"
+title: "The NIPALS algorithm"
 author: "Kevin Wright"
 date: "October 27, 2017"
-bibliography: nipals.bib
 output:
+  pdf_document: default
   html_document:
     highlight: tango
-vignette: >
-  % \VignetteIndexEntry{NIPALS algorithm}
-  % \VignetteEncoding{UTF-8}
-  % \VignetteEngine{knitr::rmarkdown}
+bibliography: nipals.bib
+vignette: |
+  % \VignetteIndexEntry{NIPALS algorithm} % \VignetteEncoding{UTF-8} % \VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r echo=FALSE,results="hide"}
@@ -26,7 +25,7 @@ $$
 $$
 where $\bf U$ $(n \times r)$ and $\bf V$ $(k \times r)$ are orthogonal matrices and $\bf S$ is a diagonal matrix of $r$ singular values.
 
-SVD does not allow missing values in the data, and performs a complete decomposition that finds all principal components at once.
+SVD does not allow missing values in the data.
 
 # NIPALS
 
@@ -86,7 +85,8 @@ This correction method is also used by SAS PROC HPPRINCOMP (which does not allow
 
 A small dataset with two missing values.
 
-```{r }
+```{r}
+require(nipals)
 B <- matrix(c(50, 67, 90, 98, 120,
               55, 71, 93, 102, 129,
               65, 76, 95, 105, 134,
@@ -102,8 +102,8 @@ m0 <- svd(scale(B)) # center and scale
 
 ```{r}
 require("nipals")
-m1 <- nipals(B2, gramschmidt=FALSE)
-m2 <- nipals(B2, gramschmidt=TRUE)
+m1 <- nipals::nipals(B2, gramschmidt=FALSE)
+m2 <- nipals::nipals(B2, gramschmidt=TRUE)
 ```
 
 Model `m1` omits the Gram-Schmidt orthogonalization step at each iteration.  Model `m2` includes it.
@@ -113,7 +113,7 @@ The eigenvalues for the two models are very similar.
 round( m1$eig, 3)
 round( m2$eig, 3)
 ```
-In theory, the loadings matrix $\bf P$ is orthogonal so that $\bf P' P = I$. If there are missing values, however, then the calculation of approximate PCs causes numerical errors to accumulate, so that in practice only the first few components can be accurately calculated. (The last PC can often be quite poor.)
+In theory, the loadings matrix $\bf P$ is orthogonal so that $\bf P' P = I$. If there are missing values, however, then the calculation of approximate PCs causes numerical errors to accumulate, so that in practice only the first few components can be accurately calculated. (The coordinates of the last PC can often be quite poor.)
 
 In this small example, the first 3 PCs of model `m1` are fairly orthogonal, but the 4th and 5th PC are not so good.  For model `m2`, the PCs are nearly exactly orthogonal.
 
