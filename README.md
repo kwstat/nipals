@@ -27,11 +27,11 @@ devtools::install_github("kwstat/nipals")
 
 ## Vignettes
 
-[NIPALS algorithm](https://rawgit.com/kwstat/nipals/master/vignettes/nipals_algorithm.pdf)
+[NIPALS algorithm](https://github.com/kwstat/nipals/raw/master/vignettes/nipals_algorithm.pdf)
 
-[Comparing NIPALS functions in R](https://rawgit.com/kwstat/nipals/master/vignettes/nipals_comparisons.pdf)
+[Comparing NIPALS functions in R](https://github.com/kwstat/nipals/raw/master/vignettes/nipals_comparisons.pdf)
 
-[NIPALS optimization notes](https://rawgit.com/kwstat/nipals/master/vignettes/nipals_optimization.pdf)
+[NIPALS optimization notes](https://github.com/kwstat/nipals/raw/master/vignettes/nipals_optimization.pdf)
 
 ## Usage
 
