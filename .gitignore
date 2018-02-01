@@ -16,7 +16,6 @@
 vignettes/*.bbl
 vignettes/*.log
 vignettes/*.md
-vignettes/*.pdf
 vignettes/*.synctex.gz
 vignettes/*.tex
 
