@@ -165,21 +165,15 @@ all.equal(res0, res)
 
 ### Comments
 
-Lest this look like an easy optimization, be aware there were numerous other versions, and each version often required fiddling with the syntax to make sure the right results were calculated.  For example, what happens if `ph` is a vector (not a matrix) and is put into a matrix operation?  Not always what you might expect.
+Although this look like an easy optimization, there were numerous other (failed) versions, and each version often required fiddling with the syntax to make sure the right results were calculated.  For example, what happens if `ph` is a vector (not a matrix) and is put into a matrix operation?  Not always what you might expect.
 
-There were also some versions that did not improve performance, one of which was a creative use of `apply` to extract the non-missing elements of the `ph^2` vector:
-```{r, eval=FALSE}
-apply(!x.miss, 2, function(x) { sum(ph2[x]) } )
-```
-This would probably cause too much head-scratching to other readers (or my future self) to warrant using.
+The optimizations described above reduced the user time from 10.76 seconds to 3.38 seconds.
 
-The optimizations above reduced the user time from 10.76 seconds to 3.38 seconds.
-
-The total effect of all optimizations reduced the user time for the `nipals` function from 19.20 seconds to 3.38 seconds in this example.
+The total effect of all optimizations in the algorithm reduced the user time for the `nipals` function from 19.20 seconds to 3.38 seconds in this example.
 
 # Calculating PP' and TT'
 
-In the Gram-Schmidt orthogonalization part of the algorithm, it is necessary to calculate $P_h P_h'$ where $P_h$ is a matrix of the first $h$ columns of the loadings matrix $P$.  It is not necessary to re-calculate the entire $P_h P_h'$ product for each PC, but only to update the product $\bf P_h P_h' = P_{h-1} P_{h-1}' + p_h p_h'$.  Here's a numerical illustration:
+In the Gram-Schmidt orthogonalization part of the algorithm, it is necessary to calculate $P_h P_h'$ where $P_h$ is a matrix of the first $h$ columns of the loadings matrix $P$.  It is not necessary to re-calculate the entire $P_h P_h'$ product for each Principal Component, but only to update the product $\bf P_h P_h' = P_{h-1} P_{h-1}' + p_h p_h'$.  Here's a numerical illustration:
 
 ```{r, eval=FALSE}
 set.seed(42)
@@ -214,4 +208,4 @@ system.time(m2 <- nipals(Bbig2, ncomp=100, gramschmidt=TRUE))
 
 ### R vs C comment
 
-The `nipals()` function makes heavy use of the `crossprod()` and `tcrossprod()` functions, which are already heavily optimized.  Non-optimized coding of the NIPALS algorithm in C would probably be *less* efficient than the R version used in this package.
+The `nipals()` function makes heavy use of the `crossprod()` and `tcrossprod()` functions, which are already extensively optimized.  Non-optimized coding of the NIPALS algorithm in C would probably be *less* efficient than the R version used in this package.

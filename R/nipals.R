@@ -82,7 +82,7 @@ m4$eig
 #' 
 #' B2 = B
 #' B2[1,1] = B2[2,2] = NA
-#' p2 = nipals(B2)
+#' p2 = nipals(B2, fitted=TRUE)
 #' 
 #' @author Kevin Wright.
 #' 
@@ -239,6 +239,8 @@ nipals <- function(x,
     xhat <- tcrossprod( tcrossprod(scores,diag(eig)), loadings)
     if(scale) xhat <- sweep(xhat, 2, csds, "*")
     if(center) xhat <- sweep(xhat, 2, cmeans, "+")
+    rownames(xhat) <- rownames(x.orig)
+    colnames(xhat) <- colnames(x.orig)
   } else { xhat <- NULL }
   
   # output

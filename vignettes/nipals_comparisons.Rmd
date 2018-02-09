@@ -56,7 +56,8 @@ B2a <- apply(B2, 2, function(x) {
   x <- x / ( sd(x, na.rm=TRUE) * sqrt((n-1) / n ))
 })
 
-mnip <- nipals::nipals(B2a, ncomp=5, center=FALSE, scale=FALSE, fitted=TRUE, maxiter=500, tol=1e-9, gramschmidt=FALSE)
+mnip <- nipals::nipals(B2a, ncomp=5, center=FALSE, scale=FALSE, 
+                       fitted=TRUE, maxiter=500, tol=1e-9, gramschmidt=FALSE)
 ```
 
 The eigenvalues reported by `ade4` are the squared singular values divided by $n-1$.
