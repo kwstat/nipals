@@ -5,21 +5,20 @@ test_that("Fitted values", {
   # extremely rare.  Here is an example of estimating the missing values
   # using XLSTAT (details on methodology are limited)
   # https://help.xlstat.com/customer/en/portal/articles/2062415-missing-data-imputation-using-nipals-in-excel?b_id=9283
-  dat <- data.frame(make = c("Honda civic", "Renault 19", "Fiat Tipo",
-                             "Peugeot 405", "Renault 21", "Citroen BX"),
-                    capacity = c(1396, 1721, 1580, 1769, 2068, 1769L),
-                    power = c(90, 92, 83, 90, 88, 90L),
-                    speed = c(174, 180, 170, 180, 180, 182L),
-                    weight = c(850, 965, 970, 1080, 1135, 1060L),
-                    length = c(369, 415, 395, 440, 446, 424L),
-                    width = c(166, 169, 170, 169, 170, 168L))
+  auto <- data.frame(make = c("Honda civic", "Renault 19", "Fiat Tipo",
+                              "Peugeot 405", "Renault 21", "Citroen BX"),
+                     capacity = c(1396, 1721, 1580, 1769, 2068, 1769L),
+                     power = c(90, 92, 83, 90, 88, 90L),
+                     speed = c(174, 180, 170, 180, 180, 182L),
+                     weight = c(850, 965, 970, 1080, 1135, 1060L),
+                     length = c(369, 415, 395, 440, 446, 424L),
+                     width = c(166, 169, 170, 169, 170, 168L))
   # create missing values along the diagonal
-  datna <- dat
-  datna[1,2] <- datna[2,3] <- datna[3,4] <- datna[4,5] <- datna[5,6] <- datna[6,7] <- NA
+  auto[1,2] <- auto[2,3] <- auto[3,4] <- auto[4,5] <- auto[5,6] <- auto[6,7] <- NA
 
   library(nipals)
   # These settings give results similar to XLstat 
-  m1 <- nipals(datna[,-1], fitted=TRUE, gramschmidt=FALSE, tol=1e-11)
+  m1 <- nipals(auto[,-1], fitted=TRUE, gramschmidt=FALSE, tol=1e-11, verbose=TRUE)
   expect_equal(diag(m1$fitted),
             c(1365.236, 88.600, 175.798, 1051.698, 432.470, 168.554), # xlstat
             tol=1e-5)
@@ -85,3 +84,24 @@ test_that("Code coverage of function arguments", {
   m1 = nipals(B, verbose=TRUE)
   
 })
+
+test_that("start column function", {
+  # corn silage data from C.Majer
+  corn <- structure(c(20.73, 23.58, 22.41, 19.97, 21.42, 24.48, 23.19, 25.73,
+                      22.66, 23.93, 18.79, 18.56, 18.47, 18.33, 20.01, 19.03, 
+                      19.36, 21.2, 19.17, 18.17, 20.41, 17.67, 17.89, 21.41,
+                      18.81, 22.77, NA, 19.86, 19.43, NA, 17.28, 14.9, 16.52,
+                      14.77, 19.35, 22.46, 24.61, NA, NA, 26.16, NA, 19.48,
+                      NA, 20.72, 17.8, 18.55, 19.56, 20.01, 20.05, 17.18,
+                      16.29, 17.41, 15.86, 15.7, 17.84, 24.1, 27.02, 26.76,
+                      26, 26.02, 20.63, 20.37, 21.17, 21.55, 19.12),
+                    .Dim = c(5L, 13L),
+                    .Dimnames = list(c("G1", "G2", "G3", "G4", "G5"),
+                                     c("E01", "E02", "E03", "E04", "E05",
+                                       "E06", "E07", "E08", "E09", "E10",
+                                       "E11", "E12", "E13")))
+  expect_warning( nipals(corn, startcol=function(x) var(x, na.rm=TRUE)) )
+  expect_silent( nipals(corn, startcol=function(x) sum(abs(x), na.rm=TRUE)) )
+  
+})
+

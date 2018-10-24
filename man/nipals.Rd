@@ -24,9 +24,12 @@ principal component.}
 \item{tol}{Default 1e-9 tolerance for testing convergence of the NIPALS
 iterations for each principal component.}
 
-\item{startcol}{If 0, start the iterations for each principal component
-with the column of x that has maximum variation.
-Otherwise, start with the spcified column number.}
+\item{startcol}{Determine the starting column of x for the iterations
+of each principal component.
+If 0, use the column of x that has maximum variation.
+If a number, use that column of x.
+If a function, apply the function to each column of x and choose the column
+with the maximum value of the function.}
 
 \item{fitted}{Default FALSE. If TRUE, return the fitted (reconstructed) value of x.}
 
@@ -40,7 +43,7 @@ orthogonalization at each iteration.}
 }
 \value{
 A list with components \code{eig}, \code{scores}, \code{loadings}, 
-\code{ncomp}, \code{R2}, \code{xhat}.
+\code{ncomp}, \code{R2}, \code{xhat}, \code{iter}.
 }
 \description{
 Used for finding principal components of a numeric matrix.
@@ -66,14 +69,18 @@ dim(p1$loadings) # 5 x 5
 
 B2 = B
 B2[1,1] = B2[2,2] = NA
-p2 = nipals(B2)
+p2 = nipals(B2, fitted=TRUE)
 
 }
 \references{
 Wold, H. (1966) Estimation of principal components and
 related models by iterative least squares. In Multivariate
 Analysis (Ed., P.R. Krishnaiah), Academic Press, NY, 391-420.
+
+Andrecut, Mircea (2009).
+Parallel GPU implementation of iterative PCA algorithms.
+Journal of Computational Biology, 16, 1593-1599.
 }
 \author{
-Kevin Wright.
+Kevin Wright
 }

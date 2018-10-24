@@ -43,9 +43,12 @@ m4$eig
 #' @param tol Default 1e-9 tolerance for testing convergence of the NIPALS
 #' iterations for each principal component.
 #'
-#' @param startcol If 0, start the iterations for each principal component
-#' with the column of x that has maximum variation.
-#' Otherwise, start with the spcified column number.
+#' @param startcol Determine the starting column of x for the iterations
+#' of each principal component.
+#' If 0, use the column of x that has maximum variation.
+#' If a number, use that column of x.
+#' If a function, apply the function to each column of x and choose the column
+#' with the maximum value of the function.
 #'
 #' @param fitted Default FALSE. If TRUE, return the fitted (reconstructed) value of x.
 #'
@@ -58,12 +61,16 @@ m4$eig
 #' @param verbose Default FALSE. Use TRUE or 1 to show some diagnostics.
 #' 
 #' @return A list with components \code{eig}, \code{scores}, \code{loadings}, 
-#' \code{ncomp}, \code{R2}, \code{xhat}.
+#' \code{ncomp}, \code{R2}, \code{xhat}, \code{iter}.
 #' 
 #' @references
 #' Wold, H. (1966) Estimation of principal components and
 #' related models by iterative least squares. In Multivariate
 #' Analysis (Ed., P.R. Krishnaiah), Academic Press, NY, 391-420.
+#'
+#' Andrecut, Mircea (2009).
+#' Parallel GPU implementation of iterative PCA algorithms.
+#' Journal of Computational Biology, 16, 1593-1599.
 #' 
 #' @examples 
 #' B <- matrix(c(50, 67, 90, 98, 120,
@@ -84,7 +91,7 @@ m4$eig
 #' B2[1,1] = B2[2,2] = NA
 #' p2 = nipals(B2, fitted=TRUE)
 #' 
-#' @author Kevin Wright.
+#' @author Kevin Wright
 #' 
 #' @importFrom stats sd var
 #' @export
@@ -105,10 +112,10 @@ nipals <- function(x,
   x.orig <- x # Save x for replacing missing values
 
   # Check for a column or row with all NAs
-  col.count <- apply(x, 2, function(x) sum(!is.na(x)))
-  if(any(col.count==0)) stop("At least one column is all NAs")
-  row.count <- apply(x, 1, function(x) sum(!is.na(x)))
-  if(any(row.count==0)) stop("At least one row is all NAs")
+  col.na.count <- apply(x, 2, function(x) sum(!is.na(x)))
+  if(any(col.na.count==0)) stop("At least one column is all NAs")
+  row.na.count <- apply(x, 1, function(x) sum(!is.na(x)))
+  if(any(row.na.count==0)) stop("At least one row is all NAs")
   
   # center / scale
   if(center) {
@@ -129,24 +136,27 @@ nipals <- function(x,
   R2cum <- rep(NA, length=ncomp)
   loadings <- matrix(nrow=nc, ncol=ncomp)
   scores <- matrix(nrow=nr, ncol=ncomp)
+  iter <- rep(NA, length=ncomp)
 
   # position of NAs
   x.miss <- is.na(x)
   has.na <- any(x.miss)
-  if(force.na) has.na <- TRUE # 
+  if(force.na) has.na <- TRUE
 
   # Calculate PC h
   for(h in 1:ncomp) {
     
-    # take a column of x, call it th
-    # if startcol=0, use the column with maximum variance
-    if(startcol==0L) {
-      scol <- which.max(apply(x,2,var,na.rm = TRUE))
+    # start with a column of x, call it th
+    if(is.function(startcol)){
+      scol <- which.max(apply(x, 2, startcol))
+    } else if(startcol==0L) {
+      # use the column with maximum absolute sum
+      scol <- which.max(apply(x, 2, function(x) sum(abs(x), na.rm=TRUE)) )
+      #scol <- which.max(apply(x, 2, var, na.rm = TRUE))
     } else {
       scol <- startcol
     }
     if(verbose >= 1) cat("PC ", h, " starting column: ", scol, sep="")
-    th <- x[, scol]
     
     # replace NA values with 0 so those elements don't contribute
     # to dot-products, etc
@@ -158,7 +168,7 @@ nipals <- function(x,
       th <- x[, scol]
     }
     
-    iter <- 1 # reset iteration counter for each PC
+    pciter <- 1 # reset iteration counter for each PC
     continue <- TRUE
     while(continue) {
   
@@ -169,6 +179,8 @@ nipals <- function(x,
         # of X is not missing data
         T2 <- matrix(th*th, nrow=nr, ncol=nc)
         T2[x.miss] <- 0
+        # it sometimes happen that colSums(T2) has a 0. should we check
+        # for that or just let it fail?
         ph <- crossprod(x0,th) / colSums(T2)
       } else {
         ph = crossprod(x,th) / sum(th*th)
@@ -193,20 +205,21 @@ nipals <- function(x,
         th = x %*% ph / sum(ph*ph)
       }
 
-      # Gram Schmidt # t = t - T_h T_h' t
+      # Gram Schmidt orthogonalization # t = t - (Th)(Th)' t
       if(gramschmidt && h>1) {
         th <- th - TTp %*% th
       }
       
-      # check convergence
-      if (iter > maxiter) {
+      # check convergence of th
+      if( sum((th-th.old)^2, na.rm=TRUE)<tol ) continue=FALSE
+      
+      pciter <- pciter + 1
+      if (pciter == maxiter) {
         continue <- FALSE
         warning("Stopping after ", maxiter, " iterations for PC ", h,".\n")
       }
-      if( sum((th-th.old)^2, na.rm=TRUE)<tol ) continue=FALSE
       
       if (verbose >= 1) cat(".")
-      iter <- iter+1
     } # iterations for PC h
     if (verbose >= 1) cat("\n")
     
@@ -214,12 +227,13 @@ nipals <- function(x,
     x <- x - (th %*% t(ph))
     loadings[,h] <- ph
     scores[,h] <- th
-    eig[h] = sum(th*th, na.rm=TRUE)
+    eig[h]  <- sum(th*th, na.rm=TRUE)
+    iter[h] <- pciter
     
     # Update (Ph)(Ph)' and (Th)(Th)' for next PC
-    if(gramschmidt) { 
-      PPp = PPp + tcrossprod(ph)
-      TTp = TTp + tcrossprod(th) / eig[h]
+    if(gramschmidt) {
+      PPp = PPp + tcrossprod(ph)          # PP' = PP' + (ph)(ph)'
+      TTp = TTp + tcrossprod(th) / eig[h] # TT' = TT' = (th)(th)'
     }
     
     # Cumulative proportion of variance explained
@@ -254,6 +268,7 @@ nipals <- function(x,
               loadings=loadings,
               fitted=xhat,
               ncomp=ncomp,
-              R2=R2)
+              R2=R2,
+              iter=iter)
   return(out)
 }

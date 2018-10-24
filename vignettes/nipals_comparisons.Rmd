@@ -7,7 +7,9 @@ output:
   html_document:
     highlight: tango
 vignette: |
-  %\VignetteIndexEntry{Comparing NIPALS functions in R} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{Comparing NIPALS functions in R}
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEncoding{UTF-8}
 ---
 
 There are at least 4 R packages with a function for performing NIPALS on a matrix that contains missing values (and several other packages have functions which do not allow missing values).  These functions have slightly different scalings for the returned values, and were written with different coding styles.

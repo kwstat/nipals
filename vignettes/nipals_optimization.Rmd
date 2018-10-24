@@ -8,8 +8,8 @@ output:
     highlight: tango
 vignette: >
   %\VignetteIndexEntry{NIPALS optimization notes}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include=FALSE}

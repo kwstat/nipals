@@ -8,7 +8,9 @@ output:
     highlight: tango
 bibliography: nipals.bib
 vignette: |
-  % \VignetteIndexEntry{NIPALS algorithm} % \VignetteEncoding{UTF-8} % \VignetteEngine{knitr::rmarkdown}
+  % \VignetteIndexEntry{NIPALS algorithm} 
+  % \VignetteEncoding{UTF-8} 
+  % \VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r echo=FALSE,results="hide"}
@@ -74,8 +76,12 @@ This method may have convergence problems if there are many missing values.
 Because of the accumulation of floating-point errors, the orthogonality of the principal components is quickly lost as the number of components increases. @andrecut2009parallel provided a Gram-Schmidt modified version of NIPALS that stabilizes the orthogonality by re-orthogonalizing the scores and loadings at each iteration. The 'corrected' terms are: 
 
 $$
-\bf p_c = p - P_{1:h} P_{1:h}' p \\
-t_c = t - T_{1:h} T_{1:h}' t
+\bf p_c = p - P_{1:h} P_{1:h}' p
+$$
+and
+
+$$
+\bf t_c = t - T_{1:h} T_{1:h}' t
 $$
 where $\bf P_{1:h}$ and $\bf T_{1:h}$ are the loadings and scores matrices based on the first $h$ principal components. Since $\bf P_{1:h} P_{1:h}'$ only needs to be calculated once for each PC (and incrementally), the orthogonalization is not very computationally expensive.
 

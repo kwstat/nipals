@@ -3,7 +3,7 @@
 
 ## Test environments
 
-* local: Windows 7, R 3.5.1
+* local: Windows 7, R 3.4.3
 * win-builder: R-release 3.4.3
 * win-builder: R-devel
 
