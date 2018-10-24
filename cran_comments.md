@@ -1,5 +1,5 @@
 
-# nipals 0.4
+# nipals 0.5
 
 ## Test environments
 
@@ -9,23 +9,16 @@
 
 ## Rcmd check results
 
-There is one NOTE:
-
-Possibly mis-spelled words in DESCRIPTION:
-  Andrecut (7:194)
-  NIPALS (2:44)
-  Orthogonalization (3:9)
-  loadings (7:159)
-  orthogonalization (7:123)
+No errors, warnings, or notes.
   
 ## Downstream dependencies
 
 gge: No problems.
 
 Downloading 1 source packages: gge
-Checking packages -----------------------------------------------------
+Checking packages --------------------------------------------------------------------------
 Checking 1 packages: gge
-Package library: C:/Temp/RtmpqE9Pi1/revdep68a074f54c66, C:/Temp/RtmpqE9Pi1/R-lib, C:/Program Files/R/R-3.4.3/library
+Package library: C:/Temp/Rtmp2nviSi/revdepfb05b6390a, C:/Temp/Rtmp2nviSi/R-lib, C:/Program Files/R/R-3.5.1/library
 Checked gge: 0 errors | 0 warnings | 0 notes
 
 # nipals 0.2
