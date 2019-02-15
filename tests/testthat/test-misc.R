@@ -5,23 +5,29 @@ test_that("Fitted values", {
   # extremely rare.  Here is an example of estimating the missing values
   # using XLSTAT (details on methodology are limited)
   # https://help.xlstat.com/customer/en/portal/articles/2062415-missing-data-imputation-using-nipals-in-excel?b_id=9283
-  auto <- data.frame(make = c("Honda civic", "Renault 19", "Fiat Tipo",
-                              "Peugeot 405", "Renault 21", "Citroen BX"),
-                     capacity = c(1396, 1721, 1580, 1769, 2068, 1769L),
+  # Circa 2017 XLSTAT estimated the missing values as 1365.2, 88.6 etc
+  # In 2019 XLSTAT generates different values.
+  auto <- data.frame(capacity = c(1396, 1721, 1580, 1769, 2068, 1769L),
                      power = c(90, 92, 83, 90, 88, 90L),
                      speed = c(174, 180, 170, 180, 180, 182L),
                      weight = c(850, 965, 970, 1080, 1135, 1060L),
                      length = c(369, 415, 395, 440, 446, 424L),
                      width = c(166, 169, 170, 169, 170, 168L))
+  rownames(auto) <- c("Honda civic", "Renault 19", "Fiat Tipo",
+                      "Peugeot 405", "Renault 21", "Citroen BX")
   # create missing values along the diagonal
-  auto[1,2] <- auto[2,3] <- auto[3,4] <- auto[4,5] <- auto[5,6] <- auto[6,7] <- NA
+  auto[1,1] <- auto[2,2] <- auto[3,3] <- auto[4,4] <- auto[5,5] <- auto[6,6] <- NA
 
   library(nipals)
   # These settings give results similar to XLstat 
-  m1 <- nipals(auto[,-1], fitted=TRUE, gramschmidt=FALSE, tol=1e-11, verbose=TRUE)
+  m1 <- nipals(auto, fitted=TRUE, gramschmidt=FALSE)
   expect_equal(diag(m1$fitted),
-            c(1365.236, 88.600, 175.798, 1051.698, 432.470, 168.554), # xlstat
-            tol=1e-5)
+               c(1365.236, 88.600, 175.798, 1051.698, 432.470, 168.554),
+               tol=1e-1)
+  
+
+  # Test Github issue #2
+  expect_silent(nipals(auto[,-1], ncomp=1, fitted=TRUE))
 })
 
 test_that("Code coverage of function arguments", {
@@ -85,8 +91,8 @@ test_that("Code coverage of function arguments", {
   
 })
 
-test_that("start column function", {
-  # corn silage data from C.Majer
+test_that("Start column function", {
+  # corn data from C.Majer
   corn <- structure(c(20.73, 23.58, 22.41, 19.97, 21.42, 24.48, 23.19, 25.73,
                       22.66, 23.93, 18.79, 18.56, 18.47, 18.33, 20.01, 19.03, 
                       19.36, 21.2, 19.17, 18.17, 20.41, 17.67, 17.89, 21.41,
@@ -100,6 +106,7 @@ test_that("start column function", {
                                      c("E01", "E02", "E03", "E04", "E05",
                                        "E06", "E07", "E08", "E09", "E10",
                                        "E11", "E12", "E13")))
+  # using column with maximum variance fails
   expect_warning( nipals(corn, startcol=function(x) var(x, na.rm=TRUE)) )
   expect_silent( nipals(corn, startcol=function(x) sum(abs(x), na.rm=TRUE)) )
   

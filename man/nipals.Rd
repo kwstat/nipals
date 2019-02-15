@@ -26,7 +26,7 @@ iterations for each principal component.}
 
 \item{startcol}{Determine the starting column of x for the iterations
 of each principal component.
-If 0, use the column of x that has maximum variation.
+If 0, use the column of x that has maximum absolute sum.
 If a number, use that column of x.
 If a function, apply the function to each column of x and choose the column
 with the maximum value of the function.}

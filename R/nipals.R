@@ -45,7 +45,7 @@ m4$eig
 #'
 #' @param startcol Determine the starting column of x for the iterations
 #' of each principal component.
-#' If 0, use the column of x that has maximum variation.
+#' If 0, use the column of x that has maximum absolute sum.
 #' If a number, use that column of x.
 #' If a function, apply the function to each column of x and choose the column
 #' with the maximum value of the function.
@@ -157,7 +157,7 @@ nipals <- function(x,
       scol <- startcol
     }
     if(verbose >= 1) cat("PC ", h, " starting column: ", scol, sep="")
-    
+
     # replace NA values with 0 so those elements don't contribute
     # to dot-products, etc
     if(has.na){
@@ -250,7 +250,8 @@ nipals <- function(x,
 
   if(fitted) {
     # re-construction of x using ncomp principal components
-    xhat <- tcrossprod( tcrossprod(scores,diag(eig)), loadings)
+    # must use diag( nrow=length(eig)) because diag(3.3) is a 3x3 identity
+    xhat <- tcrossprod( tcrossprod(scores,diag(eig, nrow=length(eig))), loadings)
     if(scale) xhat <- sweep(xhat, 2, csds, "*")
     if(center) xhat <- sweep(xhat, 2, cmeans, "+")
     rownames(xhat) <- rownames(x.orig)
