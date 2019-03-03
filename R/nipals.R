@@ -2,22 +2,22 @@
 
 if(FALSE){
 
-B <- matrix(c(50, 67, 90, 98, 120,
-             55, 71, 93, 102, 129,
-             65, 76, 95, 105, 134,
-             50, 80, 102, 130, 138,
-             60, 82, 97, 135, 151,
-             65, 89, 106, 137, 153,
-             75, 95, 117, 133, 155), ncol=5, byrow=TRUE)
-rownames(B) <- c("G1","G2","G3","G4","G5","G6","G7")
-colnames(B) <- c("E1","E2","E3","E4","E5")
- 
-B2 = B
-B2[1,1] = B2[2,1] = NA
-
-m4 <- nipals(B2, ncomp=5)
-m4$eig
-
+  B <- matrix(c(50, 67, 90, 98, 120,
+                55, 71, 93, 102, 129,
+                65, 76, 95, 105, 134,
+                50, 80, 102, 130, 138,
+                60, 82, 97, 135, 151,
+                65, 89, 106, 137, 153,
+                75, 95, 117, 133, 155), ncol=5, byrow=TRUE)
+  rownames(B) <- c("G1","G2","G3","G4","G5","G6","G7")
+  colnames(B) <- c("E1","E2","E3","E4","E5")
+  
+  B2 = B
+  B2[1,1] = B2[2,1] = NA
+  
+  m4 <- nipals(B2, ncomp=5)
+  m4$eig
+  
 }
 
 #' Principal component analysis by NIPALS, non-linear iterative partial least squares
@@ -121,11 +121,11 @@ nipals <- function(x,
   if(center) {
     cmeans <- colMeans(x, na.rm=TRUE)
     x <- sweep(x, 2, cmeans, "-")
-  }
+  } else cmeans <- NA
   if(scale) {
     csds <- apply(x, 2, sd, na.rm=TRUE)
     x <- sweep(x, 2, csds, "/")
-  }
+  } else csds <- NA
   
   TotalSS <- sum(x*x, na.rm=TRUE)
   
@@ -270,6 +270,7 @@ nipals <- function(x,
               fitted=xhat,
               ncomp=ncomp,
               R2=R2,
-              iter=iter)
+              iter=iter, 
+              center=cmeans, scale=csds)
   return(out)
 }

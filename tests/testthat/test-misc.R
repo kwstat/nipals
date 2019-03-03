@@ -24,7 +24,6 @@ test_that("Fitted values", {
   expect_equal(diag(m1$fitted),
                c(1365.236, 88.600, 175.798, 1051.698, 432.470, 168.554),
                tol=1e-1)
-  
 
   # Test Github issue #2
   expect_silent(nipals(auto[,-1], ncomp=1, fitted=TRUE))
@@ -109,6 +108,33 @@ test_that("Start column function", {
   # using column with maximum variance fails
   expect_warning( nipals(corn, startcol=function(x) var(x, na.rm=TRUE)) )
   expect_silent( nipals(corn, startcol=function(x) sum(abs(x), na.rm=TRUE)) )
+  
+})
+
+test_that("Predictions from nipals model", {
+
+  set.seed(42)
+  ix <- sample(nrow(iris), nrow(iris)*0.75)
+  iris.train <- iris[ix,1:4]
+  iris.test <- iris[-ix,1:4]
+  
+  # Method 1: Assign a class to the nipals model
+  m1 <- nipals(iris.train[,1:4])
+  class(m1) <- "princomp"
+  predict(m1, newdata=iris.test[,1:4])
+  
+  # Method 2: Call stats:::predict.princomp
+  # m2 <- nipals(iris.train[,1:4])
+  # stats:::predict.princomp(m2, newdata=iris.test[,1:4])
+    
+  # # prcomp uses x$rotation, princomp uses x$loadings
+  # m3 <- m1
+  # m3$rotation <- m3$loadings
+  # stats:::predict.prcomp(m3, newdata=iris.valid[,1:4])
+  # 
+  # # princomp 
+  # m4 <- princomp(iris.train[,1:4])
+  # predict(m4, newdata=iris.valid[,1:4])
   
 })
 
