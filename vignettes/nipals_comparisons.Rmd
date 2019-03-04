@@ -12,11 +12,18 @@ vignette: |
   %\VignetteEncoding{UTF-8}
 ---
 
-There are at least 4 R packages with a function for performing NIPALS on a matrix that contains missing values (and several other packages have functions which do not allow missing values).  These functions have slightly different scalings for the returned values, and were written with different coding styles.
+There are at least 4 R packages with a function for performing NIPALS on a matrix that contains missing values:
+1. `ade4::nipals`
+2. `mixOmics::nipals`
+3. `nipals::nipals`
+4. `plsdepot::nipals`
 
-With careful attention to some of the scaling details of the returned values, all 4 packages produce the same results.  However, there are dramatic differences in performance.
+These functions have slightly different scalings for the returned values, and were written with different coding styles. With careful attention to some of the scaling details of the returned values, all 4 packages produce the same results.  However, there are dramatic differences in performance.
 
-NOTE! These comparisons were made before `nipals::nipals` gained the Gram-Schmidt orthogonalization by default.
+Note: These timing comparisons were made before `nipals::nipals` gained the Gram-Schmidt orthogonalization by default, which will slow the function slightly.
+
+There are other R packages with a NIPALS function that do NOT allow missing values (which are not considered here):
+1. `mvdalab::pca.nipals`
 
 # Example data
 
@@ -42,7 +49,7 @@ same <- function(a,b, tol=1e-3){
 }
 ```
 
-Since principal components are only unique up to a change of sign, a small function `same()` has been defined to take absolute values before calling `all.equal`. The `same()` function will be used to compare results from the differnt functions.  In the next 3 sections, the results from the `nipals` package are compared to the `ade4`, `plsdepot`, and `mixOmics` packages respectively.
+Since principal components are only unique up to a change of sign, a small function `same()` has been defined to take absolute values before calling `all.equal`. The `same()` function will be used to compare results from the different functions.  In the next 3 sections, the results from the `nipals` package are compared to the `ade4`, `plsdepot`, and `mixOmics` packages respectively.
 
 # ade4
 

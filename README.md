@@ -3,7 +3,7 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/nipals)](https://cran.r-project.org/package=nipals)
 [![CRAN_Downloads](https://cranlogs.r-pkg.org/badges/nipals)](https://cranlogs.r-pkg.org/badges/nipals)
 
-The 'nipals' package provides a single function to perform Principal Components Analysis of a matrix using Non-linear Iterative Partial Least Squares. NIPALS has been implemented several times in R packages.  This package strives to be the best (fast and accurate) implementation.
+The `nipals` package provides a single function to perform Principal Components Analysis of a matrix using Non-linear Iterative Partial Least Squares. NIPALS has been implemented several times in R packages.  This package strives to be the best (fast and accurate) implementation.
 
 Key features:
   

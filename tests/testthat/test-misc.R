@@ -111,8 +111,8 @@ test_that("Start column function", {
   
 })
 
-test_that("Predictions from nipals model", {
-
+test_that("Predictions from model", {
+  
   set.seed(42)
   ix <- sample(nrow(iris), nrow(iris)*0.75)
   iris.train <- iris[ix,1:4]

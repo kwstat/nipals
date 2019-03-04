@@ -1,5 +1,5 @@
 
-# nipals 0.5
+# nipals 0.4
 
 ## Test environments
 
