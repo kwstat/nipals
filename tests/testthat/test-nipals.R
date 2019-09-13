@@ -1,4 +1,3 @@
-context("misc")
 
 test_that("Fitted values", {
   # Published examples of NIPALS with missing values are 
@@ -29,7 +28,7 @@ test_that("Fitted values", {
   expect_silent(nipals(auto[,-1], ncomp=1, fitted=TRUE))
 })
 
-test_that("Code coverage of function arguments", {
+test_that("Code coverage of nipals function arguments", {
   B <- matrix(c(50, 67, 90, 98, 120,
                 55, 71, 93, 102, 129,
                 65, 76, 95, 105, 134,
@@ -117,11 +116,20 @@ test_that("Predictions from model", {
   ix <- sample(nrow(iris), nrow(iris)*0.75)
   iris.train <- iris[ix,1:4]
   iris.test <- iris[-ix,1:4]
-  
+
+  # Pre-computed predictions for reference
+  p1ref <- structure(
+    c(-2.1634, -2.45126, -2.53552, -2.32751, -2.41099, 
+      -0.8063, -0.52704, -0.18264, 0.02092, -1.26167, 0.26757, -0.01858, 
+      -0.31982, 0.10316, -0.10626, -0.09459, -0.02626, 0.03138, 0.02455, 
+      0.0337), .Dim = 5:4, .Dimnames = list(c("2", "3", "7", "8", "9"),
+                                            c("PC1", "PC2", "PC3", "PC4")))
+
   # Method 1: Assign a class to the nipals model
   m1 <- nipals(iris.train[,1:4])
   class(m1) <- "princomp"
-  predict(m1, newdata=iris.test[,1:4])
+  p1 <- predict(m1, newdata=iris.test[,1:4])
+  expect_equal(p1[1:5,], p1ref, tol=1e-2)
   
   # Method 2: Call stats:::predict.princomp
   # m2 <- nipals(iris.train[,1:4])
@@ -137,4 +145,27 @@ test_that("Predictions from model", {
   # predict(m4, newdata=iris.valid[,1:4])
   
 })
+
+# ----------------------------------------------------------------------------
+## expect_allclose <- function(A, B, rtol=1e-5, atol=1e-8){
+##   # https://docs.scipy.org/doc/numpy/reference/generated/numpy.allclose.html
+##   # a, b, rtol=1e-05, atol=1e-08, equal_nan=False
+##   # Returns True if two arrays are element-wise equal within a tolerance.
+##   # The tolerance values are positive, typically very small numbers.
+##   # The relative difference (rtol * abs(b)) and the absolute difference atol
+##   # are added together to compare against the absolute difference
+##   # between a and b.
+
+##   # If either array contains one or more NaNs, False is returned. Infs are treated as equal if they are in the same place and of the same sign in both arrays.
+  
+##   # If the following equation is element-wise True, then allclose returns True.
+##   # absolute(a - b) <= (atol + rtol * absolute(b))
+##   # The above equation is not symmetric in a and b, so that allclose(a, b)
+##   # might be different from allclose(b, a) in some rare cases.
+
+##   diff <- abs(A-B) < (atol + rtol * abs(B))
+##   print(diff)
+##   expect_true(all(diff))
+## }
+## #expect_allclose(m1s$u, m1n$scores, rtol=1e-5, atol=1e-8)
 

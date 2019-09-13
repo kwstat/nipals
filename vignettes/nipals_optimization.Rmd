@@ -3,9 +3,7 @@ title: "NIPALS optimization notes"
 author: "Kevin Wright"
 date: "October 25, 2017"
 output:
-  pdf_document: default
-  html_document:
-    highlight: tango
+  rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{NIPALS optimization notes}
   %\VignetteEncoding{UTF-8}
@@ -18,9 +16,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Abstract
 
-These are some notes to document some of the optimization process for the `nipals` package. As such, it is not complete and the R code chunks cannot be re-run.
+These are some notes to document some of the optimization process for the `nipals` function. As such, it is not complete and the R code chunks *cannot be re-run*.
 
-Optimizing performance is an art form that requires a good understanding of how functions manage memory and calculations, but also involves a fair bit of trial and error.  For example, code that is optimal for small data may not be optimal for large data. There can also be a trade-off between code that is optimal and code that is readable.  Our view leans heavily toward the philosophy that programmer time is more expensive than processor time, so code should be written for humans.
+Optimizing performance is a skill that requires a good understanding of how functions manage memory and calculations, but also involves a fair bit of trial and error.  For example, code that is optimal for small data may not be optimal for large data. There can also be a trade-off between code that is optimal and code that is readable.  Our view leans heavily toward the philosophy that programmer time is more expensive than processor time, so that code should be written for humans.
 
 # General computational performance tips
 
@@ -39,20 +37,20 @@ In this section `x` and `y` are matrices and `v` is a vector.
 6. Use `crossprod(v)` instead of `sum(v*v)` if `v` has a lot more than a million numbers or if the result could have numeric overflow.
 ```{r, eval=FALSE}
 v = rnorm(1e8) # 100 million
-system.time(sum(v*v))
-#   user  system elapsed 
-#   0.24    0.17    0.40 
 system.time(crossprod(v))
 #   user  system elapsed 
 #   0.24    0.00    0.23 
-
-v = rnorm(1e9) # 1000 million
 system.time(sum(v*v))
 #   user  system elapsed 
-#   3.25   45.71  141.76 
+#   0.24    0.17    0.40 
+
+v = rnorm(1e9) # 1000 million
 system.time(crossprod(v))
 #   user  system elapsed 
 #   2.99    0.72   19.20 
+system.time(sum(v*v))
+#   user  system elapsed 
+#   3.25   45.71  141.76 
 
 v = 1:1e6 # 1 million
 system.time(crossprod(v))
@@ -61,8 +59,8 @@ system.time(crossprod(v))
 system.time(sum(v*v))
 #   user  system elapsed 
 #      0       0       0 
-#Warning message:
-#In k * k : NAs produced by integer overflow
+# Warning message:
+# In k * k : NAs produced by integer overflow
 ```
 
 7. Use `colSums(x*x)` instead of `diag(crossprod(x))` if `x` is much wider than 1000 columns.

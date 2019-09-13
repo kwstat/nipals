@@ -12,7 +12,7 @@ Suggests:
     knitr,
     rmarkdown,
     testthat
-URL: https://github.com/kwstat/nipals
+URL: http://kwstat.github.io/nipals/
 BugReports: https://github.com/kwstat/nipals/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

@@ -1,7 +1,12 @@
-# nipals <img src="figure/nipals_logo_150.png" align="right" />
+# nipals <img src="man/figures/logo.png" align="right" />
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/nipals)](https://cran.r-project.org/package=nipals)
 [![CRAN_Downloads](https://cranlogs.r-pkg.org/badges/nipals)](https://cranlogs.r-pkg.org/badges/nipals)
+
+Homepage: https://kwstat.github.io/nipals
+
+Repository: https://github.com/kwstat/nipals
+
 
 The `nipals` package provides a single function to perform Principal Components Analysis of a matrix using Non-linear Iterative Partial Least Squares. NIPALS has been implemented several times in R packages.  This package strives to be the best (fast and accurate) implementation.
 
@@ -23,14 +28,6 @@ install.packages("nipals")
 install.packages("devtools")
 devtools::install_github("kwstat/nipals")
 ```
-
-## Vignettes
-
-[The NIPALS algorithm](https://github.com/kwstat/nipals/raw/master/vignettes/nipals_algorithm.pdf)
-
-[Comparing NIPALS functions in R](https://github.com/kwstat/nipals/raw/master/vignettes/nipals_comparisons.pdf)
-
-[NIPALS optimization notes](https://github.com/kwstat/nipals/raw/master/vignettes/nipals_optimization.pdf)
 
 ## Usage
 
