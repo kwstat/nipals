@@ -100,9 +100,18 @@
 
     
     
-<p>There are at least 4 R packages with a function for performing NIPALS on a matrix that contains missing values: 1. <code>ade4::nipals</code> 2. <code>mixOmics::nipals</code> 3. <code><a href="../reference/nipals.html">nipals::nipals</a></code> 4. <code>plsdepot::nipals</code></p>
+<p>There are at least 4 R packages with a function for performing NIPALS on a matrix that contains missing values:</p>
+<ol style="list-style-type: decimal">
+<li><code>ade4::nipals</code></li>
+<li><code>mixOmics::nipals</code></li>
+<li><code><a href="../reference/nipals.html">nipals::nipals</a></code></li>
+<li><code>plsdepot::nipals</code></li>
+</ol>
 <p>These functions have slightly different scalings for the returned values, and were written with different coding styles. With careful attention to some of the scaling details of the returned values, all 4 packages produce the same results. However, there are dramatic differences in speed.</p>
-<p>There are other R packages with a NIPALS function that do NOT allow missing values (which are not considered here): 1. <code>mvdalab::pca.nipals</code></p>
+<p>There are other R packages with a NIPALS function that do NOT allow missing values (which are not considered here):</p>
+<ol style="list-style-type: decimal">
+<li><code>mvdalab::pca.nipals</code></li>
+</ol>
 <div id="example-data" class="section level1">
 <h1 class="hasAnchor">
 <a href="#example-data" class="anchor"></a>Example data</h1>
@@ -215,9 +224,9 @@
 <a class="sourceLine" id="cb7-16" title="16"><span class="kw">same</span>(mnip<span class="op">$</span>scores, mmix<span class="op">$</span>t, <span class="dt">tol=</span><span class="fl">1e-2</span>)</a>
 <a class="sourceLine" id="cb7-17" title="17"><span class="co"># TRUE</span></a></code></pre></div>
 </div>
-<div id="speed-omparison" class="section level1">
+<div id="speed-comparison" class="section level1">
 <h1 class="hasAnchor">
-<a href="#speed-omparison" class="anchor"></a>Speed omparison</h1>
+<a href="#speed-comparison" class="anchor"></a>Speed comparison</h1>
 <p>For the purpose of comparing performance of the functions, we simulate a 100 x 100 matrix and insert one missing value.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">43</span>)</a>
 <a class="sourceLine" id="cb8-2" title="2">Bbig &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">100</span><span class="op">*</span><span class="dv">100</span>), <span class="dt">nrow=</span><span class="dv">100</span>)</a>
@@ -266,7 +275,7 @@
       <li><a href="#ade4">ade4</a></li>
       <li><a href="#plsdepot">plsdepot</a></li>
       <li><a href="#mixomics">mixOmics</a></li>
-      <li><a href="#speed-omparison">Speed omparison</a></li>
+      <li><a href="#speed-comparison">Speed comparison</a></li>
       </ul>
 </div>
       </div>

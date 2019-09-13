@@ -11,6 +11,7 @@ vignette: >
 ---
 
 There are at least 4 R packages with a function for performing NIPALS on a matrix that contains missing values:
+
 1. `ade4::nipals`
 2. `mixOmics::nipals`
 3. `nipals::nipals`
@@ -19,6 +20,7 @@ There are at least 4 R packages with a function for performing NIPALS on a matri
 These functions have slightly different scalings for the returned values, and were written with different coding styles. With careful attention to some of the scaling details of the returned values, all 4 packages produce the same results.  However, there are dramatic differences in speed.
 
 There are other R packages with a NIPALS function that do NOT allow missing values (which are not considered here):
+
 1. `mvdalab::pca.nipals`
 
 # Example data
@@ -152,7 +154,7 @@ same(mnip$scores, mmix$t, tol=1e-2)
 # TRUE
 ```
 
-# Speed omparison
+# Speed comparison
 
 For the purpose of comparing performance of the functions, we simulate a 100 x 100 matrix and insert one missing value.
 
