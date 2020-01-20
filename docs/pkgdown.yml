@@ -1,14 +1,8 @@
 pandoc: 2.7.2
-<<<<<<< HEAD
-pkgdown: 1.4.0
-pkgdown_sha: ~
-articles:
-=======
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
   empca_notes: empca_notes.html
->>>>>>> empca
   nipals_algorithm: nipals_algorithm.html
   nipals_comparisons: nipals_comparisons.html
   nipals_optimization: nipals_optimization.html

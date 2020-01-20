@@ -1,25 +1,18 @@
 
 # nipals 0.6 - Jan 2010
 
-<<<<<<< HEAD
 * Calculating xhat with `ncomp=1` now works (#2)
 
 * `nipals()` now returns `center` and `scale` in the fitted model object, which makes it easier to get predictions from the model (#1).
-=======
+
 * New (experimental) function `empca()` to calculate principal components via weighted EM PCA.
 
-* Calculating fitted values with `ncomp=1` now works (#2)
->>>>>>> empca
-
-* `nipals()` now returns `center` and `scale` in the fitted model object, which makes it easier to get predictions from the model (#1).
-
-<<<<<<< HEAD
 * Row/column names added to fitted matrix.
 
 * New `startcol` argument can now be a function which is applied to every column.
 
 * There is a slight change to automatic start column selection. By default, the start column is the column with the largest sum of absolute values. (Formerly was largest variance, but this does not make sense when columns are scaled.)
-=======
+
 # nipals 0.5 - Oct 2018
 
 * Row/column names added to fitted matrix.
@@ -29,7 +22,7 @@
 * There is a slight change to automatic start column selection. By default, the start column is the column with the largest sum of absolute values. (Formerly, the start column was the column with the largest variance, but this does not make sense when columns are scaled.)
 
 # nipals 0.4 - Feb 2018
->>>>>>> empca
+
 
 # nipals 0.3 - Nov 2017
 

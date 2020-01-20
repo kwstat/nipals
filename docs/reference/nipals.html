@@ -81,11 +81,7 @@ the 'loadings' matrix." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nipals</a>
-<<<<<<< HEAD
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5</span>
-=======
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6</span>
->>>>>>> empca
       </span>
     </div>
 
@@ -108,12 +104,9 @@ the 'loadings' matrix." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-<<<<<<< HEAD
-=======
       <a href="../articles/empca_notes.html">EMPCA notes</a>
     </li>
     <li>
->>>>>>> empca
       <a href="../articles/nipals_algorithm.html">The NIPALS algorithm</a>
     </li>
     <li>
@@ -156,11 +149,6 @@ The algorithm computes x = TP', where T is the 'scores' matrix and P is
 the 'loadings' matrix.</p>
     </div>
 
-<<<<<<< HEAD
-    <pre class="usage"><span class='fu'>nipals</span>(<span class='no'>x</span>, <span class='kw'>ncomp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>x</span>), <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>x</span>)), <span class='kw'>center</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>500</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>startcol</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>fitted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>force.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>gramschmidt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
-=======
     <pre class="usage"><span class='fu'>nipals</span>(
   <span class='no'>x</span>,
   <span class='kw'>ncomp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>x</span>), <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>x</span>)),
@@ -174,7 +162,6 @@ the 'loadings' matrix.</p>
   <span class='kw'>gramschmidt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
->>>>>>> empca
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,19 +177,11 @@ Missing values are allowed.</p></td>
     </tr>
     <tr>
       <th>center</th>
-<<<<<<< HEAD
-      <td><p>If TRUE, subtract the mean from each column of x.</p></td>
-    </tr>
-    <tr>
-      <th>scale</th>
-      <td><p>if TRUE, divide the standard deviation from each column of x.</p></td>
-=======
       <td><p>If TRUE, subtract the mean from each column of x before PCA.</p></td>
     </tr>
     <tr>
       <th>scale</th>
       <td><p>if TRUE, divide the standard deviation from each column of x before PCA.</p></td>
->>>>>>> empca
     </tr>
     <tr>
       <th>maxiter</th>
@@ -246,15 +225,11 @@ orthogonalization at each iteration.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list with components <code>eig</code>, <code>scores</code>, <code>loadings</code>, 
-<<<<<<< HEAD
-<code>ncomp</code>, <code>R2</code>, <code>xhat</code>, <code>iter</code>.</p>
-=======
 <code>fitted</code>, <code>ncomp</code>, <code>R2</code>, <code>iter</code>, <code>center</code>, 
 <code>scale</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The R2 values that are reported are marginal, not cumulative.</p>
->>>>>>> empca
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Wold, H. (1966) Estimation of principal components and
@@ -278,9 +253,6 @@ Journal of Computational Biology, 16, 1593-1599.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>p1</span>$<span class='no'>scores</span>) <span class='co'># 7 x 5</span></div><div class='output co'>#&gt; [1] 7 5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>p1</span>$<span class='no'>loadings</span>) <span class='co'># 5 x 5</span></div><div class='output co'>#&gt; [1] 5 5</div><div class='input'>
 <span class='no'>B2</span> <span class='kw'>=</span> <span class='no'>B</span>
 <span class='no'>B2</span>[<span class='fl'>1</span>,<span class='fl'>1</span>] <span class='kw'>=</span> <span class='no'>B2</span>[<span class='fl'>2</span>,<span class='fl'>2</span>] <span class='kw'>=</span> <span class='fl'>NA</span>
-<<<<<<< HEAD
-<span class='no'>p2</span> <span class='kw'>=</span> <span class='fu'>nipals</span>(<span class='no'>B2</span>, <span class='kw'>fitted</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div></pre>
-=======
 <span class='no'>p2</span> <span class='kw'>=</span> <span class='fu'>nipals</span>(<span class='no'>B2</span>, <span class='kw'>fitted</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 
 <span class='co'># Two ways to make a biplot</span>
@@ -292,17 +264,13 @@ Journal of Computational Biology, 16, 1593-1599.</p>
 <span class='no'>p2</span>$<span class='no'>sdev</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='no'>p2</span>$<span class='no'>eig</span>)
 <span class='fu'><a href='https://rdrr.io/r/stats/biplot.html'>biplot</a></span>(<span class='no'>p2</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='fl'>0</span>)</div><div class='img'><img src='nipals-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
->>>>>>> empca
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-<<<<<<< HEAD
-=======
       <li><a href="#details">Details</a></li>
->>>>>>> empca
       <li><a href="#references">References</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
@@ -319,11 +287,7 @@ Journal of Computational Biology, 16, 1593-1599.</p>
 </div>
 
 <div class="pkgdown">
-<<<<<<< HEAD
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
-=======
   <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
->>>>>>> empca
 </div>
 
       </footer>

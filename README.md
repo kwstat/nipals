@@ -7,16 +7,11 @@ Homepage: https://kwstat.github.io/nipals
 
 Repository: https://github.com/kwstat/nipals
 
-<<<<<<< HEAD
-
-The `nipals` package provides a single function to perform Principal Components Analysis of a matrix using Non-linear Iterative Partial Least Squares. NIPALS has been implemented several times in R packages.  This package strives to be the best (fast and accurate) implementation.
-=======
 The `nipals` package provides two functions to perform Principal Components Analysis of a matrix. (1) The `nipals` function uses Non-linear Iterative Partial Least Squares. (2) The `empca` function uses EM PCA.
 NIPALS has been implemented several times in R packages. EMPCA has previously appeared in python, but is available in R here for the first time.
 This package strives to have the best (fast and accurate) R implementations.
 
 The `empca()` function should be considered **experimental**.  There is a problem using `empca()` on matrices that are both (1) non-full rank (2) have missing values.
->>>>>>> empca
 
 Key features:
   

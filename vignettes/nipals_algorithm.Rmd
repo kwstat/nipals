@@ -1,11 +1,7 @@
 ---
 title: "The NIPALS algorithm"
 author: "Kevin Wright"
-<<<<<<< HEAD
-date: "`r Sys.Date()`"
-=======
 date: "2017-10-27"
->>>>>>> empca
 output:
   rmarkdown::html_vignette
 bibliography: nipals.bib

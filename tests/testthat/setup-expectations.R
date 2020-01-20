@@ -1,18 +1,11 @@
-<<<<<<< HEAD
-=======
 # setup-expectations.R
->>>>>>> empca
 
 expect_aligned <- function(A, B, tol=.01){
 
   # The results of SVD are unique, but only up to a change of sign
   # for columns of U, which indicates that the axis is flipped.
   # We need a way to see if two rotation matrices are almost aligned,
-<<<<<<< HEAD
-  # allowed for axis flips.
-=======
   # allowing for axis flips.
->>>>>>> empca
   
   # Calculate the angle between each pair of columns from A and B,
   # and then average.

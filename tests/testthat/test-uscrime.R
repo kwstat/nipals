@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-=======
 # test-uscrime.R
 
 # see setup-expectations.R for expect_aligned
->>>>>>> empca
 
 # these examples come from the documentation for the SAS PCA procedure
 # http://documentation.sas.com/?docsetId=casstat&docsetVersion=8.11&docsetTarget=viyastat_pca_gettingstarted.htm&locale=en

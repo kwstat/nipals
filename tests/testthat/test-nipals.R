@@ -1,20 +1,13 @@
-<<<<<<< HEAD
-=======
 # test-nipals.R
 
 # see setup-expectations.R for expect_aligned
->>>>>>> empca
 
 test_that("Fitted values", {
   # Published examples of NIPALS with missing values are 
   # extremely rare.  Here is an example of estimating the missing values
   # using XLSTAT (details on methodology are limited)
   # https://help.xlstat.com/customer/en/portal/articles/2062415-missing-data-imputation-using-nipals-in-excel?b_id=9283
-<<<<<<< HEAD
-  # Circa 2017 XLSTAT estimated the missing values as 1365.2, 88.6 etc
-=======
   # Circa 2017 XLSTAT estimated the missing values below as 1365.2, 88.6 etc
->>>>>>> empca
   # In 2019 XLSTAT generates different values.
   auto <- data.frame(capacity = c(1396, 1721, 1580, 1769, 2068, 1769L),
                      power = c(90, 92, 83, 90, 88, 90L),
@@ -122,17 +115,12 @@ test_that("Start column function", {
 
 test_that("Predictions from model", {
   
-<<<<<<< HEAD
-=======
-  
   # choose 75% of rows for training sample
->>>>>>> empca
   set.seed(42)
   ix <- sample(nrow(iris), nrow(iris)*0.75)
   iris.train <- iris[ix,1:4]
   iris.test <- iris[-ix,1:4]
 
-<<<<<<< HEAD
   # Pre-computed predictions for reference
   p1ref <- structure(
     c(-2.1634, -2.45126, -2.53552, -2.32751, -2.41099, 
@@ -142,18 +130,10 @@ test_that("Predictions from model", {
                                             c("PC1", "PC2", "PC3", "PC4")))
 
   # Method 1: Assign a class to the nipals model
-  m1 <- nipals(iris.train[,1:4])
-  class(m1) <- "princomp"
-  p1 <- predict(m1, newdata=iris.test[,1:4])
-  expect_equal(p1[1:5,], p1ref, tol=1e-2)
-  
-=======
-  # Method 1: Assign a class to the nipals model
   m1 <- nipals(iris.train, startcol=2)
   class(m1) <- "princomp"
   p1 <- predict(m1, newdata=iris.test)
 
->>>>>>> empca
   # Method 2: Call stats:::predict.princomp
   # m2 <- nipals(iris.train[,1:4])
   # stats:::predict.princomp(m2, newdata=iris.test[,1:4])
