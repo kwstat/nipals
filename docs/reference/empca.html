@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Principal component analysis by NIPALS, non-linear iterative partial least squares — nipals • nipals</title>
+<title>Principal component analysis by weighted EMPCA, expectation maximization 
+principal component-analysis — empca • nipals</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,9 +43,11 @@
 
 
 
-<meta property="og:title" content="Principal component analysis by NIPALS, non-linear iterative partial least squares — nipals" />
+<meta property="og:title" content="Principal component analysis by weighted EMPCA, expectation maximization 
+principal component-analysis — empca" />
 <meta property="og:description" content="Used for finding principal components of a numeric matrix.
 Missing values in the matrix are allowed.
+Weights for each element of the matrix are allowed.
 Principal Components are extracted one a time.  
 The algorithm computes x = TP', where T is the 'scores' matrix and P is
 the 'loadings' matrix." />
@@ -81,11 +84,7 @@ the 'loadings' matrix." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nipals</a>
-<<<<<<< HEAD
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5</span>
-=======
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6</span>
->>>>>>> empca
       </span>
     </div>
 
@@ -108,12 +107,9 @@ the 'loadings' matrix." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-<<<<<<< HEAD
-=======
       <a href="../articles/empca_notes.html">EMPCA notes</a>
     </li>
     <li>
->>>>>>> empca
       <a href="../articles/nipals_algorithm.html">The NIPALS algorithm</a>
     </li>
     <li>
@@ -143,46 +139,46 @@ the 'loadings' matrix." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Principal component analysis by NIPALS, non-linear iterative partial least squares</h1>
+    <h1>Principal component analysis by weighted EMPCA, expectation maximization 
+principal component-analysis</h1>
     
-    <div class="hidden name"><code>nipals.Rd</code></div>
+    <div class="hidden name"><code>empca.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Used for finding principal components of a numeric matrix.
 Missing values in the matrix are allowed.
+Weights for each element of the matrix are allowed.
 Principal Components are extracted one a time.  
 The algorithm computes x = TP', where T is the 'scores' matrix and P is
 the 'loadings' matrix.</p>
     </div>
 
-<<<<<<< HEAD
-    <pre class="usage"><span class='fu'>nipals</span>(<span class='no'>x</span>, <span class='kw'>ncomp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>x</span>), <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>x</span>)), <span class='kw'>center</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>500</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>startcol</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>fitted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>force.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>gramschmidt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
-=======
-    <pre class="usage"><span class='fu'>nipals</span>(
+    <pre class="usage"><span class='fu'>empca</span>(
   <span class='no'>x</span>,
+  <span class='no'>w</span>,
   <span class='kw'>ncomp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>x</span>), <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>x</span>)),
   <span class='kw'>center</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>500</span>,
+  <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>,
-  <span class='kw'>startcol</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>fitted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>force.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>gramschmidt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
->>>>>>> empca
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Numerical matrix for which to find principal compontents. 
+      <td><p>Numerical matrix for which to find principal components. 
 Missing values are allowed.</p></td>
+    </tr>
+    <tr>
+      <th>w</th>
+      <td><p>Numerical matrix of weights.</p></td>
     </tr>
     <tr>
       <th>ncomp</th>
@@ -190,47 +186,29 @@ Missing values are allowed.</p></td>
     </tr>
     <tr>
       <th>center</th>
-<<<<<<< HEAD
-      <td><p>If TRUE, subtract the mean from each column of x.</p></td>
-    </tr>
-    <tr>
-      <th>scale</th>
-      <td><p>if TRUE, divide the standard deviation from each column of x.</p></td>
-=======
       <td><p>If TRUE, subtract the mean from each column of x before PCA.</p></td>
     </tr>
     <tr>
       <th>scale</th>
       <td><p>if TRUE, divide the standard deviation from each column of x before PCA.</p></td>
->>>>>>> empca
     </tr>
     <tr>
       <th>maxiter</th>
-      <td><p>Maximum number of NIPALS iterations for each
+      <td><p>Maximum number of EM iterations for each
 principal component.</p></td>
     </tr>
     <tr>
       <th>tol</th>
-      <td><p>Default 1e-9 tolerance for testing convergence of the NIPALS
+      <td><p>Default 1e-6 tolerance for testing convergence of the EM
 iterations for each principal component.</p></td>
     </tr>
     <tr>
-      <th>startcol</th>
-      <td><p>Determine the starting column of x for the iterations
-of each principal component.
-If 0, use the column of x that has maximum absolute sum.
-If a number, use that column of x.
-If a function, apply the function to each column of x and choose the column
-with the maximum value of the function.</p></td>
+      <th>seed</th>
+      <td><p>Random seed to use when initializing the random rotation matrix.</p></td>
     </tr>
     <tr>
       <th>fitted</th>
       <td><p>Default FALSE. If TRUE, return the fitted (reconstructed) value of x.</p></td>
-    </tr>
-    <tr>
-      <th>force.na</th>
-      <td><p>Default FALSE. If TRUE, force the function to use the
-method for missing values, even if there are no missing values in x.</p></td>
     </tr>
     <tr>
       <th>gramschmidt</th>
@@ -246,23 +224,14 @@ orthogonalization at each iteration.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list with components <code>eig</code>, <code>scores</code>, <code>loadings</code>, 
-<<<<<<< HEAD
-<code>ncomp</code>, <code>R2</code>, <code>xhat</code>, <code>iter</code>.</p>
-=======
 <code>fitted</code>, <code>ncomp</code>, <code>R2</code>, <code>iter</code>, <code>center</code>, 
 <code>scale</code>.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The R2 values that are reported are marginal, not cumulative.</p>
->>>>>>> empca
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Wold, H. (1966) Estimation of principal components and
-related models by iterative least squares. In Multivariate
-Analysis (Ed., P.R. Krishnaiah), Academic Press, NY, 391-420.</p>
-<p>Andrecut, Mircea (2009).
-Parallel GPU implementation of iterative PCA algorithms.
-Journal of Computational Biology, 16, 1593-1599.</p>
+    <p>Stephen Bailey (2012). 
+Principal Component Analysis with Noisy and/or Missing Data.
+Publications of the Astronomical Society of the Pacific.
+http://doi.org/10.1086/668105</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>B</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>50</span>, <span class='fl'>67</span>, <span class='fl'>90</span>, <span class='fl'>98</span>, <span class='fl'>120</span>,
@@ -274,35 +243,17 @@ Journal of Computational Biology, 16, 1593-1599.</p>
               <span class='fl'>75</span>, <span class='fl'>95</span>, <span class='fl'>117</span>, <span class='fl'>133</span>, <span class='fl'>155</span>), <span class='kw'>ncol</span><span class='kw'>=</span><span class='fl'>5</span>, <span class='kw'>byrow</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>B</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"G1"</span>,<span class='st'>"G2"</span>,<span class='st'>"G3"</span>,<span class='st'>"G4"</span>,<span class='st'>"G5"</span>,<span class='st'>"G6"</span>,<span class='st'>"G7"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>B</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"E1"</span>,<span class='st'>"E2"</span>,<span class='st'>"E3"</span>,<span class='st'>"E4"</span>,<span class='st'>"E5"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>B</span>) <span class='co'># 7 x 5</span></div><div class='output co'>#&gt; [1] 7 5</div><div class='input'><span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'>nipals</span>(<span class='no'>B</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>B</span>) <span class='co'># 7 x 5</span></div><div class='output co'>#&gt; [1] 7 5</div><div class='input'><span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'>empca</span>(<span class='no'>B</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>p1</span>$<span class='no'>scores</span>) <span class='co'># 7 x 5</span></div><div class='output co'>#&gt; [1] 7 5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>p1</span>$<span class='no'>loadings</span>) <span class='co'># 5 x 5</span></div><div class='output co'>#&gt; [1] 5 5</div><div class='input'>
 <span class='no'>B2</span> <span class='kw'>=</span> <span class='no'>B</span>
 <span class='no'>B2</span>[<span class='fl'>1</span>,<span class='fl'>1</span>] <span class='kw'>=</span> <span class='no'>B2</span>[<span class='fl'>2</span>,<span class='fl'>2</span>] <span class='kw'>=</span> <span class='fl'>NA</span>
-<<<<<<< HEAD
-<span class='no'>p2</span> <span class='kw'>=</span> <span class='fu'>nipals</span>(<span class='no'>B2</span>, <span class='kw'>fitted</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div></pre>
-=======
-<span class='no'>p2</span> <span class='kw'>=</span> <span class='fu'>nipals</span>(<span class='no'>B2</span>, <span class='kw'>fitted</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-
-<span class='co'># Two ways to make a biplot</span>
-
-<span class='co'># method 1</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/biplot.html'>biplot</a></span>(<span class='no'>p2</span>$<span class='no'>scores</span>, <span class='no'>p2</span>$<span class='no'>loadings</span>)</div><div class='input'>
-<span class='co'># method 2</span>
-<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>p2</span>) <span class='kw'>&lt;-</span> <span class='st'>"princomp"</span>
-<span class='no'>p2</span>$<span class='no'>sdev</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='no'>p2</span>$<span class='no'>eig</span>)
-<span class='fu'><a href='https://rdrr.io/r/stats/biplot.html'>biplot</a></span>(<span class='no'>p2</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='fl'>0</span>)</div><div class='img'><img src='nipals-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
->>>>>>> empca
+<span class='no'>p2</span> <span class='kw'>=</span> <span class='fu'>empca</span>(<span class='no'>B2</span>, <span class='kw'>fitted</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-<<<<<<< HEAD
-=======
-      <li><a href="#details">Details</a></li>
->>>>>>> empca
       <li><a href="#references">References</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
@@ -319,11 +270,7 @@ Journal of Computational Biology, 16, 1593-1599.</p>
 </div>
 
 <div class="pkgdown">
-<<<<<<< HEAD
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
-=======
   <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
->>>>>>> empca
 </div>
 
       </footer>

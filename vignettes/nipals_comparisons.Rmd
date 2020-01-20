@@ -1,7 +1,11 @@
 ---
 title: "Comparing results and performance of NIPALS functions in R"
 author: "Kevin Wright"
+<<<<<<< HEAD
 date: "11 Apr 2019"
+=======
+date: "2017-10-27"
+>>>>>>> empca
 output:
   rmarkdown::html_vignette
 vignette: >
@@ -10,14 +14,23 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+<<<<<<< HEAD
 There are at least 4 R packages with a function for performing NIPALS on a matrix that contains missing values:
+=======
+There are at least 5 R packages with a function for performing NIPALS on a matrix that contains missing values:
+>>>>>>> empca
 
 1. `ade4::nipals`
 2. `mixOmics::nipals`
 3. `nipals::nipals`
 4. `plsdepot::nipals`
+5. `pcaMethods::nipalsPca` and `pcaMethods::RnipalsPca`.
 
+<<<<<<< HEAD
 These functions have slightly different scalings for the returned values, and were written with different coding styles. With careful attention to some of the scaling details of the returned values, all 4 packages produce the same results.  However, there are dramatic differences in speed.
+=======
+These functions have slightly different scalings for the returned values, and were written with different coding styles. With careful attention to some of the scaling details of the returned values, packages 1-4 produce the same results.  However, there are dramatic differences in speed. (Number 5 was added to the list later and is not included in the comparisons).
+>>>>>>> empca
 
 There are other R packages with a NIPALS function that do NOT allow missing values (which are not considered here):
 

@@ -1,7 +1,7 @@
 ---
 title: "NIPALS optimization notes"
 author: "Kevin Wright"
-date: "October 25, 2017"
+date: "2017-10-25"
 output:
   rmarkdown::html_vignette
 vignette: >

@@ -1,20 +1,13 @@
-<<<<<<< HEAD
-=======
-# test-nipals.R
+# test-empca.R
 
-# see setup-expectations.R for expect_aligned
->>>>>>> empca
+# see setup-expectations.R for expect_aligned function
 
 test_that("Fitted values", {
   # Published examples of NIPALS with missing values are 
   # extremely rare.  Here is an example of estimating the missing values
   # using XLSTAT (details on methodology are limited)
   # https://help.xlstat.com/customer/en/portal/articles/2062415-missing-data-imputation-using-nipals-in-excel?b_id=9283
-<<<<<<< HEAD
-  # Circa 2017 XLSTAT estimated the missing values as 1365.2, 88.6 etc
-=======
   # Circa 2017 XLSTAT estimated the missing values below as 1365.2, 88.6 etc
->>>>>>> empca
   # In 2019 XLSTAT generates different values.
   auto <- data.frame(capacity = c(1396, 1721, 1580, 1769, 2068, 1769L),
                      power = c(90, 92, 83, 90, 88, 90L),
@@ -24,16 +17,40 @@ test_that("Fitted values", {
                      width = c(166, 169, 170, 169, 170, 168L))
   rownames(auto) <- c("Honda civic", "Renault 19", "Fiat Tipo",
                       "Peugeot 405", "Renault 21", "Citroen BX")
-  # create missing values along the diagonal
-  auto[1,1] <- auto[2,2] <- auto[3,3] <- auto[4,4] <- auto[5,5] <- auto[6,6] <- NA
 
+  # 1 missing value
+  auto1 <- auto
+  auto1[1,1] <- NA
+  # 2 missing values
+  auto2 <- auto
+  auto2[1,1] <- auto2[2,2] <- NA
+  # 6 missing values along the diagonal
+  auto6 <- auto
+  diag(auto6) <- NA
+
+  # complete-data eigenvalues
+  # R> round(empca(auto)$eig,2)
+  # [1] 4.39 3.04 0.99 0.62 0.37 0.00
+  # R> round(nipals(auto)$eig,2)
+  # [1] 4.39 3.04 0.99 0.62 0.37 0.00
+  
+  # m1 <- empca(auto1, fitted=TRUE, tol=1e-9, gramschmidt=FALSE)
+  # for comparing with python
+  # m1 <- empca(auto, center=FALSE, scale=FALSE)
+  #
+  # m1 <- empca(auto1[,1:5], w=1 * !is.na(auto1[,1:5]), 
+  #             center=FALSE, scale=FALSE, 
+  #             gramschmidt=FALSE, verbose=2)
+  # lucid(t(m1$eig * t(m1$scores)))
+  # lucid(m1$loadings)
+  
   library(nipals)
   # These settings give results similar to XLstat 
-  m1 <- nipals(auto, fitted=TRUE, gramschmidt=FALSE)
+  m1 <- nipals(auto, fitted=TRUE, tol=1e-9, gramschmidt=FALSE)
   expect_equal(diag(m1$fitted),
                c(1365.236, 88.600, 175.798, 1051.698, 432.470, 168.554),
                tol=1e-1)
-
+  
   # Test Github issue #2
   expect_silent(nipals(auto[,-1], ncomp=1, fitted=TRUE))
 })
@@ -59,6 +76,7 @@ test_that("Code coverage of nipals function arguments", {
   
   B2 = B
   B2[1,1] = B2[2,1] = NA
+  B2wt <- 1*!is.na(B2)
   
   # ncomp
   m1 = nipals(B2, ncomp=1)
@@ -70,20 +88,20 @@ test_that("Code coverage of nipals function arguments", {
   
   # maxiter
   expect_warning(nipals(B, maxiter=2))
-
+  
   # tol
   m1 = nipals(B2, tol=1e-1, verbose=TRUE)
   m1 = nipals(B2, tol=1e-10, verbose=TRUE)
-
+  
   # startcol
   m1 = nipals(B, startcol=0, verbose=TRUE)
   m1 = nipals(B, startcol=5, verbose=TRUE)
-
+  
   # fitted
   expect_null(nipals(B)$fitted)
   expect_null(nipals(B, fitted=FALSE)$fitted)
   expect_false(is.null(nipals(B, fitted=TRUE)$fitted))
-
+  
   # force.na
   m1 = nipals(B, force.na=FALSE)
   m1 = nipals(B, force.na=TRUE)
@@ -122,42 +140,22 @@ test_that("Start column function", {
 
 test_that("Predictions from model", {
   
-<<<<<<< HEAD
-=======
   
   # choose 75% of rows for training sample
->>>>>>> empca
   set.seed(42)
   ix <- sample(nrow(iris), nrow(iris)*0.75)
   iris.train <- iris[ix,1:4]
   iris.test <- iris[-ix,1:4]
-
-<<<<<<< HEAD
-  # Pre-computed predictions for reference
-  p1ref <- structure(
-    c(-2.1634, -2.45126, -2.53552, -2.32751, -2.41099, 
-      -0.8063, -0.52704, -0.18264, 0.02092, -1.26167, 0.26757, -0.01858, 
-      -0.31982, 0.10316, -0.10626, -0.09459, -0.02626, 0.03138, 0.02455, 
-      0.0337), .Dim = 5:4, .Dimnames = list(c("2", "3", "7", "8", "9"),
-                                            c("PC1", "PC2", "PC3", "PC4")))
-
-  # Method 1: Assign a class to the nipals model
-  m1 <- nipals(iris.train[,1:4])
-  class(m1) <- "princomp"
-  p1 <- predict(m1, newdata=iris.test[,1:4])
-  expect_equal(p1[1:5,], p1ref, tol=1e-2)
   
-=======
   # Method 1: Assign a class to the nipals model
   m1 <- nipals(iris.train, startcol=2)
   class(m1) <- "princomp"
   p1 <- predict(m1, newdata=iris.test)
-
->>>>>>> empca
+  
   # Method 2: Call stats:::predict.princomp
   # m2 <- nipals(iris.train[,1:4])
   # stats:::predict.princomp(m2, newdata=iris.test[,1:4])
-    
+  
   # # prcomp uses x$rotation, princomp uses x$loadings
   # m3 <- m1
   # m3$rotation <- m3$loadings
@@ -180,7 +178,7 @@ test_that("Predictions from model", {
 ##   # between a and b.
 
 ##   # If either array contains one or more NaNs, False is returned. Infs are treated as equal if they are in the same place and of the same sign in both arrays.
-  
+
 ##   # If the following equation is element-wise True, then allclose returns True.
 ##   # absolute(a - b) <= (atol + rtol * absolute(b))
 ##   # The above equation is not symmetric in a and b, so that allclose(a, b)

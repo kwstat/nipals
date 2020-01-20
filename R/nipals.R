@@ -27,15 +27,17 @@ if(FALSE){
 #' Principal Components are extracted one a time.  
 #' The algorithm computes x = TP', where T is the 'scores' matrix and P is
 #' the 'loadings' matrix.
+#'
+#' The R2 values that are reported are marginal, not cumulative.
 #' 
 #' @param x Numerical matrix for which to find principal compontents. 
 #' Missing values are allowed.
 #' 
 #' @param ncomp Maximum number of principal components to extract from x.
 #'
-#' @param center If TRUE, subtract the mean from each column of x.
+#' @param center If TRUE, subtract the mean from each column of x before PCA.
 #'
-#' @param scale if TRUE, divide the standard deviation from each column of x.
+#' @param scale if TRUE, divide the standard deviation from each column of x before PCA.
 #' 
 #' @param maxiter Maximum number of NIPALS iterations for each
 #' principal component.
@@ -61,7 +63,8 @@ if(FALSE){
 #' @param verbose Default FALSE. Use TRUE or 1 to show some diagnostics.
 #' 
 #' @return A list with components \code{eig}, \code{scores}, \code{loadings}, 
-#' \code{ncomp}, \code{R2}, \code{xhat}, \code{iter}.
+#' \code{fitted}, \code{ncomp}, \code{R2}, \code{iter}, \code{center}, 
+#' \code{scale}.
 #' 
 #' @references
 #' Wold, H. (1966) Estimation of principal components and
@@ -90,6 +93,16 @@ if(FALSE){
 #' B2 = B
 #' B2[1,1] = B2[2,2] = NA
 #' p2 = nipals(B2, fitted=TRUE)
+#'
+#' # Two ways to make a biplot
+#'
+#' # method 1
+#' biplot(p2$scores, p2$loadings)
+#'
+#' # method 2
+#' class(p2) <- "princomp"
+#' p2$sdev <- sqrt(p2$eig)
+#' biplot(p2, scale=0)
 #' 
 #' @author Kevin Wright
 #' 
@@ -107,9 +120,9 @@ nipals <- function(x,
                    verbose=FALSE) {
 
   x <- as.matrix(x) # in case it is a data.frame
-  nc <- ncol(x)
-  nr <- nrow(x)
-  x.orig <- x # Save x for replacing missing values
+  nvar <- ncol(x)
+  nobs <- nrow(x)
+  x.orig <- x # Save x for row/col names
 
   # Check for a column or row with all NAs
   col.na.count <- apply(x, 2, function(x) sum(!is.na(x)))
@@ -130,12 +143,12 @@ nipals <- function(x,
   TotalSS <- sum(x*x, na.rm=TRUE)
   
   # initialize outputs
-  PPp = matrix(0, nrow=nc, ncol=nc)
-  TTp = matrix(0, nrow=nr, ncol=nr)
+  PPp = matrix(0, nrow=nvar, ncol=nvar)
+  TTp = matrix(0, nrow=nobs, ncol=nobs)
   eig <- rep(NA, length=ncomp)
   R2cum <- rep(NA, length=ncomp)
-  loadings <- matrix(nrow=nc, ncol=ncomp)
-  scores <- matrix(nrow=nr, ncol=ncomp)
+  loadings <- matrix(nrow=nvar, ncol=ncomp)
+  scores <- matrix(nrow=nobs, ncol=ncomp)
   iter <- rep(NA, length=ncomp)
 
   # position of NAs
@@ -177,7 +190,7 @@ nipals <- function(x,
         # caution: t't is NOT the same for each column of X't, but is
         # the sum of the squared elements of t for which that column
         # of X is not missing data
-        T2 <- matrix(th*th, nrow=nr, ncol=nc)
+        T2 <- matrix(th*th, nrow=nobs, ncol=nvar)
         T2[x.miss] <- 0
         # it sometimes happen that colSums(T2) has a 0. should we check
         # for that or just let it fail?
@@ -198,7 +211,7 @@ nipals <- function(x,
       if (has.na) {
         # square the elements of the vector ph, put into columns of P2,
         # extract the non-missing (in each column of X), and sum
-        P2 <- matrix(ph*ph, nrow=nc, ncol=nr)
+        P2 <- matrix(ph*ph, nrow=nvar, ncol=nobs)
         P2[t(x.miss)] <- 0
         th = x0 %*% ph / colSums(P2)        
       } else {
@@ -251,14 +264,16 @@ nipals <- function(x,
   if(fitted) {
     # re-construction of x using ncomp principal components
     # must use diag( nrow=length(eig)) because diag(3.3) is a 3x3 identity
-    xhat <- tcrossprod( tcrossprod(scores,diag(eig, nrow=length(eig))), loadings)
+    # xhat <- tcrossprod( tcrossprod(scores,diag(eig, nrow=length(eig))), loadings)
+    xhat <- tcrossprod( sweep( scores, 2, eig, "*") , loadings)
     if(scale) xhat <- sweep(xhat, 2, csds, "*")
     if(center) xhat <- sweep(xhat, 2, cmeans, "+")
     rownames(xhat) <- rownames(x.orig)
     colnames(xhat) <- colnames(x.orig)
-  } else { xhat <- NULL }
+  } else {
+    xhat <- NULL
+  }
   
-  # output
   rownames(scores) <- rownames(x)
   colnames(scores) <- paste("PC", 1:ncol(scores), sep="")
   rownames(loadings) <- colnames(x)
