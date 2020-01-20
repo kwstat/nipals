@@ -1,3 +1,27 @@
+# nipals 0.6
+
+This release fixes the 'Additional issues' showing on CRAN test pages.
+
+## Test environments
+
+* local: Windows 10, R 3.6.1
+* R-hub
+* Win-builder R-release 3.6.2
+* Win-builder R-devel
+
+## Rcmd check results
+
+No errors or warnings.  One note:
+
+  Possibly mis-spelled words in DESCRIPTION:
+    EMPCA (2:63)
+
+This abbreviation is correctly spelled.
+
+## Downstream dependencies
+
+gge: Checked, no problems.
+
 
 # nipals 0.4
 

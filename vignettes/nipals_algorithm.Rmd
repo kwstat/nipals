@@ -1,16 +1,14 @@
 ---
 title: "The NIPALS algorithm"
 author: "Kevin Wright"
-date: "October 27, 2017"
+date: "2017-10-27"
 output:
-  pdf_document: default
-  html_document:
-    highlight: tango
+  rmarkdown::html_vignette
 bibliography: nipals.bib
-vignette: |
-  % \VignetteIndexEntry{NIPALS algorithm} 
-  % \VignetteEncoding{UTF-8} 
-  % \VignetteEngine{knitr::rmarkdown}
+vignette: >
+  %\VignetteIndexEntry{NIPALS algorithm} 
+  %\VignetteEncoding{UTF-8} 
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r echo=FALSE,results="hide"}

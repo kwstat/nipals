@@ -17,3 +17,4 @@ vignettes/*.md
 vignettes/*.synctex.gz
 vignettes/*.tex
 revdep
+pkgdown

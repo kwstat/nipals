@@ -1,0 +1,139 @@
+---
+title: "EMPCA notes"
+author: "Kevin Wright"
+date: "16 Mar 2019"
+output:
+  rmarkdown::html_vignette
+bibliography: nipals.bib
+vignette: >
+  %\VignetteIndexEntry{EMPCA notes} 
+  %\VignetteEncoding{UTF-8} 
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+
+Compare nipals/empca with no missing
+Compare nipals/empca with missing, equal weight
+Compare nipals/empca with missing, unequal weight
+
+## Complete data
+
+```{r, eval=FALSE}
+# Python - Coeff (scores)
+[[-2.809  0.097  0.244  0.050]
+ [-1.834  0.286  0.010 -0.135]
+ [-0.809  0.963 -0.341  0.078]
+ [-0.155 -1.129  0.548  0.026]
+ [0.707  -0.723 -0.736 -0.024]
+ [1.830  -0.290 -0.157  0.030]
+ [3.070   0.796  0.431 -0.026]]
+
+# m1e <- empca(x=B1, w=B1wt, ncomp=4)
+# Un-sweep the eigenvalues to compare to python results
+# R round( sweep( m1e$scores, 2, m1e$eig, "*"), 3)
+      PC1    PC2    PC3    PC4
+G1 -2.809  0.097 -0.244  0.050
+G2 -1.834  0.286 -0.010 -0.135
+G3 -0.809  0.963  0.341  0.078
+G4 -0.155 -1.129 -0.548  0.026
+G5  0.707 -0.723  0.736 -0.024
+G6  1.830 -0.290  0.157  0.030
+G7  3.070  0.796 -0.431 -0.026
+
+# Matlab - P (scores)
+  0.5590   0.0517   0.2210   0.2910
+  0.3650   0.1520   0.0095  -0.7840
+  0.1610   0.5120  -0.3080   0.4530
+  0.0309  -0.6010   0.4950   0.1510
+ -0.1410  -0.3850  -0.6640  -0.1380
+ -0.3650  -0.1540  -0.1420   0.1760
+-0.6110   0.4230   0.3890  -0.1490
+
+# R round(m1e$scores, 3)
+      PC1    PC2    PC3    PC4
+G1 -0.559 -0.052  0.221 -0.291
+G2 -0.365 -0.152  0.009  0.784
+G3 -0.161 -0.512 -0.308 -0.453
+G4 -0.031  0.601  0.495 -0.151
+G5  0.141  0.385 -0.664  0.138
+G6  0.365  0.154 -0.142 -0.176
+G7  0.611 -0.423  0.389  0.149
+```
+
+## Missing data
+
+```
+# Python with initial Identity matrix
+
+[[2.791 0.125 0.325 -0.035]
+ [1.528 -0.989 -0.211 0.172]
+ [0.990 -0.651 -0.117 -0.186]
+ [0.159 1.463 0.530 0.020]
+ [-0.628 0.862 -0.730 -0.032]
+ [-1.738 0.406 -0.139 -0.071]
+ [-2.917 -0.712 0.520 -0.047]]
+ 
+Eigvec (loadings)
+[[-0.309 -0.839 -0.298 0.300]
+ [-0.502 0.014 0.154 -0.615]
+ [-0.470 -0.086 0.766 0.219]
+ [-0.441 0.521 -0.236 0.615]
+ [-0.487 0.128 -0.496 -0.326]]
+ 
+
+# R 
+
+R> m2e <- empca(x=B2, w=B2wt, ncomp=4, seed=NULL)
+# # Un-sweep the eigenvalues to compare to python results
+R> round( sweep( m2e$scores, 2, m2e$eig, "*"), 3)
+      PC1    PC2    PC3    PC4
+G1 -2.791  0.216 -0.356  0.066
+G2 -1.528 -0.942  0.187 -0.150
+G3 -0.990 -0.620  0.101  0.207
+G4 -0.159  1.472 -0.522 -0.032
+G5  0.628  0.844  0.744  0.021
+G6  1.738  0.351  0.161  0.050
+G7  2.917 -0.808 -0.493  0.019
+R> round( m2e$loadings, 3)
+     PC1    PC2    PC3    PC4
+E1 0.309 -0.839  0.298 -0.300
+E2 0.502  0.014 -0.154  0.615
+E3 0.470 -0.086 -0.766 -0.219
+E4 0.441  0.521  0.236 -0.615
+E5 0.487  0.128  0.496  0.326
+
+```
+
+## Python 
+
+Python code by @bailey2012principal, retrieved 1 Mar 2019 from https://github.com/sbailey/empca .
+
+The Python code is difficult to read in places for a person [like me] not well-versed with Python. Three examples:
+
+1. It is not clear what values `k` takes in `for k in range(self.nvec)`.
+2. Gram-Schmidt orthogonalization is accomplished with a pair of nested `for` loops instead of a function.
+3. The `Model` class structure makes it a bit tricky to figure out what objects have actually been modified inside a function.
+
+The Python code iterates these two EM steps:
+
+1. Calculate the coefficient matrix C.
+2. Calculate ALL `ncomp` principal components P simultaneously (iterate each to convergence). Orthogonalize P.
+
+For a complete-data problem, python and R give similar results. Note the `Coeff` matrix in python does NOT have eigenvalues swept out of the columns.
+
+For the missing-data problem, the python results are somewhat different from R.
+
+
+## Matlab
+
+Matlab code by Vicente Parot, retrieved 1 Mar 2019 from  https://www.mathworks.com/matlabcentral/fileexchange/45353-empca.
+
+The Matlab code feels similar to R.
+
+The Matlab code calculates principal components sequentially, one at time. For each principal component, the algorithm iterates between these two steps:
+
+1. Calculate C[,h]
+2. Calculate P[,h]
+
+While this is a type of EM algorithm, it is not the algorithm described by Bailey (2012) and is considered further.
+

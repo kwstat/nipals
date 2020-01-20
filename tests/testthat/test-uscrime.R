@@ -1,4 +1,6 @@
-context("uscrime data")
+# test-uscrime.R
+
+# see setup-expectations.R for expect_aligned
 
 # these examples come from the documentation for the SAS PCA procedure
 # http://documentation.sas.com/?docsetId=casstat&docsetVersion=8.11&docsetTarget=viyastat_pca_gettingstarted.htm&locale=en
@@ -35,23 +37,35 @@ test_that("NIPALS decomposition of 'uscrime' data matches SAS", {
                                "burglary", "larceny", "autotheft")
   colnames(sas.loadings) <- paste0("PC",1:7)
   # use abs() because values are only unique up to a sign change
-  expect_equal(abs(m1$loadings), abs(sas.loadings), tolerance = 1e-3)
-  expect_equal(abs(m2$loadings), abs(sas.loadings), tolerance = 1e-3)
+  #expect_equal(abs(m1$loadings), abs(sas.loadings), tolerance = 1e-3)
+  expect_aligned(m1$loadings, sas.loadings, tol=1e-3)
+  #expect_equal(abs(m2$loadings), abs(sas.loadings), tolerance = 1e-3)
+  expect_aligned(m2$loadings, sas.loadings, tol=1e-3)
 
 })
 
-test_that("NIPALS and SVD match for complete uscrime data", {
+test_that("SVD, NIPALS and EMPCA results match for complete uscrime data", {
   data(uscrime)
   dat <- uscrime[complete.cases(uscrime), ]
   dat <- as.matrix(dat[ , -1])
   m1 <- nipals(dat) # complete-data method
-  m3 <- svd(scale(dat))
+  m1s <- svd(scale(dat))
+
+  # NIPALS vs SVD
   
   # eigenvalues
-  expect_equal(m1$eig, m3$d, tol = 1e-3)
-  # loadings
-  expect_equal(abs(m1$loadings), abs(m3$v), tol=1e-3, check.attributes=FALSE )
+  expect_equal(m1$eig, m1s$d, tol = 1e-3)
   # scores
-  expect_equal(abs(m1$scores), abs(m3$u), tol=1e-3, check.attributes=FALSE )
+  #expect_equal(abs(m1$scores), abs(m1s$u), tol=1e-3, check.attributes=FALSE )
+  expect_aligned(m1s$u, m1$scores)
+  # loadings
+  #expect_equal(abs(m1$loadings), abs(m1s$v), tol=1e-3, check.attributes=FALSE )
+  expect_aligned(m1s$v, m1$loadings)
+
+  # EMPCA vs SVD
+  m1e <- empca(dat)
+  expect_equal(m1$eig, m1e$eig, tol=1e-3)
+  expect_aligned(m1s$u, m1e$scores)
+  expect_aligned(m1s$v, m1e$loadings)
   
 })

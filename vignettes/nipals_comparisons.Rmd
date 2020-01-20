@@ -1,28 +1,27 @@
 ---
-title: "Comparing NIPALS functions in R"
+title: "Comparing results and performance of NIPALS functions in R"
 author: "Kevin Wright"
-date: "October 27, 2017"
+date: "2017-10-27"
 output:
-  pdf_document: default
-  html_document:
-    highlight: tango
-vignette: |
-  %\VignetteIndexEntry{Comparing NIPALS functions in R}
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Comparing results and performance of NIPALS functions in R}
   %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteEncoding{UTF-8}
 ---
 
-There are at least 4 R packages with a function for performing NIPALS on a matrix that contains missing values:
+There are at least 5 R packages with a function for performing NIPALS on a matrix that contains missing values:
+
 1. `ade4::nipals`
 2. `mixOmics::nipals`
 3. `nipals::nipals`
 4. `plsdepot::nipals`
+5. `pcaMethods::nipalsPca` and `pcaMethods::RnipalsPca`.
 
-These functions have slightly different scalings for the returned values, and were written with different coding styles. With careful attention to some of the scaling details of the returned values, all 4 packages produce the same results.  However, there are dramatic differences in performance.
-
-Note: These timing comparisons were made before `nipals::nipals` gained the Gram-Schmidt orthogonalization by default, which will slow the function slightly.
+These functions have slightly different scalings for the returned values, and were written with different coding styles. With careful attention to some of the scaling details of the returned values, packages 1-4 produce the same results.  However, there are dramatic differences in speed. (Number 5 was added to the list later and is not included in the comparisons).
 
 There are other R packages with a NIPALS function that do NOT allow missing values (which are not considered here):
+
 1. `mvdalab::pca.nipals`
 
 # Example data
@@ -153,10 +152,10 @@ same(mnip$loadings, mmix$p, tol=1e-2)
 mnip$scores
 mmix$t
 same(mnip$scores, mmix$t, tol=1e-2)
-TRUE
+# TRUE
 ```
 
-# Performance comparison
+# Speed comparison
 
 For the purpose of comparing performance of the functions, we simulate a 100 x 100 matrix and insert one missing value.
 
@@ -170,7 +169,7 @@ Bbig2[1,1] <- NA
 The `ade4::nipals` function uses `for` loops to loop over the columns of `X`, which results in very slow execution even when calculating only 1 principal component.
 
 ```{r, eval=FALSE}
-system.time(ade4::nipals(Bbig2, nf=1)) # Only 1 factor!
+system.time(ade4::nipals(Bbig2, nf=1)) # Only 1 PC!
 ##  user  system elapsed 
 ## 42.09    0.00   42.14 
 ```
@@ -178,26 +177,44 @@ system.time(ade4::nipals(Bbig2, nf=1)) # Only 1 factor!
 The `plsdepot::nipals` function is fast enough that all 100 PCs can be calculated.
 
 ```{r, eval=FALSE}
-system.time(plsdepot::nipals(Bbig2, comps=1)) # Only 1 factor !
+system.time(plsdepot::nipals(Bbig2, comps=1)) # Only 1 PC !
 #   user  system elapsed 
-#    0.5     0.0     0.5 
-system.time(plsdepot::nipals(Bbig2, comps=100)) # 100 factors
+#    0.5     0.0     0.5
+system.time(plsdepot::nipals(Bbig2, comps=100)) # 100 PCs
 #   user  system elapsed 
 #  30.19    0.00   30.18 
 ```
 
-The `mixOmics::nipals` function uses `crossprod` and a few other tricks to improve performance.
+The `mixOmics::nipals` function uses the `crossprod` function and a few other tricks to improve performance.
 
 ```{r, eval=FALSE}
-system.time(mixOmics::nipals(scale(Bbig2), ncomp=100)) # 100 factors
+system.time(mixOmics::nipals(scale(Bbig2), ncomp=100)) # 100 PCs
 #   user  system elapsed 
 #  20.70    0.00   20.81 
 ```
 
-The `nipals::nipals` function was optimized through extensive testing and is about 5 times faster!
+The `nipals::nipals` function was optimized through extensive testing and is about 5 times faster! Note that Gram-Scmidt is turned off in order to make a fair comparison with other functions.
 
 ```{r, eval=FALSE}
-system.time(nipals::nipals(Bbig2, ncomp=100, gramschmidt=FALSE)) # 100 factors
+system.time(nipals::nipals(Bbig2, ncomp=100, gramschmidt=FALSE)) # 100 PCs
 #   user  system elapsed 
-#   2.74    0.00    2.75 
+#   2.93    0.00    2.93
+```
+
+When Gram-Schmidt is turned on (which is the default setting), the function is a bit slower.
+
+```{r, eval=FALSE}
+system.time(nipals::nipals(Bbig2, ncomp=100, gramschmidt=TRUE)) # 100 PCs
+#   user  system elapsed 
+#    3.6     0.0     3.6 
+```
+
+The `nipals::empca` function results here are VERY tentative:
+```{r, eval=FALSE}
+system.time(empca(Bbig2, ncomp=100, gramschmidt=FALSE)) # 100 PCs
+#   user  system elapsed 
+#   1.03    0.00    1.03 
+system.time(empca(Bbig2, ncomp=100, gramschmidt=TRUE)) # 100 PCs
+#   user  system elapsed 
+#  10.44    0.00   10.45 
 ```
