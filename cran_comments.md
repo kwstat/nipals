@@ -1,13 +1,13 @@
-# nipals 0.6
+# nipals 0.7
 
-This release fixes the 'Additional issues' showing on CRAN test pages.
+This is a resubmission. Thanks to Uwe Ligges for patiently explaining the 'Additional issues' caused by --noLD.  I fixed the problem and verified the fix via the Rhub platform "debian-gcc-devel-nold".
 
 ## Test environments
 
-* local: Windows 10, R 3.6.1
-* R-hub
-* Win-builder R-release 3.6.2
-* Win-builder R-devel
+* local: Windows 10, R 3.6.2
+* Rhub: Debian Linux, R-devel, GCC, no long double
+* Win-builder: R-release, version 3.6.2 (2019-12-12)
+* Win-builder: R-devel ATC
 
 ## Rcmd check results
 

@@ -1,7 +1,11 @@
 
+# nipals 0.7 - Jan 2010
+
+* Fix 'additional issues' reported by CRAN (#3).
+
 # nipals 0.6 - Jan 2010
 
-* Calculating xhat with `ncomp=1` now works (#2)
+* Calculating xhat with `ncomp=1` now works (#2).
 
 * `nipals()` now returns `center` and `scale` in the fitted model object, which makes it easier to get predictions from the model (#1).
 

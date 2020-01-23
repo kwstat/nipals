@@ -1,7 +1,7 @@
 Package: nipals
 Title: Principal Components Analysis using NIPALS or Weighted EMPCA, with Gram-Schmidt Orthogonalization
-Version: 0.6
-Date: 2020-01-19
+Version: 0.7
+Date: 2020-01-21
 Authors@R: person("Kevin", "Wright", email = "kw.stat@gmail.com", comment=c(ORCID = "0000-0002-0617-8673"), role = c("aut", "cre"))
 Description: Principal Components Analysis of a matrix using Non-linear Iterative Partial Least Squares or weighted Expectation Maximization PCA with Gram-Schmidt orthogonalization of the scores and loadings. Optimized for speed. See Andrecut (2009) <doi:10.1089/cmb.2008.0221>.
 Depends: R (>= 3.4.0)

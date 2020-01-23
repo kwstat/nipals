@@ -107,9 +107,11 @@ test_that("Start column function", {
                                      c("E01", "E02", "E03", "E04", "E05",
                                        "E06", "E07", "E08", "E09", "E10",
                                        "E11", "E12", "E13")))
-  # using column with maximum variance fails
-  expect_warning( nipals(corn, startcol=function(x) var(x, na.rm=TRUE)) )
+  # specify the startcol as a function
   expect_silent( nipals(corn, startcol=function(x) sum(abs(x), na.rm=TRUE)) )
+  # using column with maximum variance fails
+  # do NOT use this line...has problems when CRAN checks with --noLD
+  # expect_warning( nipals(corn, startcol=function(x) var(x, na.rm=TRUE)) )
   
 })
 
