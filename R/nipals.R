@@ -42,7 +42,7 @@ if(FALSE){
 #' @param maxiter Maximum number of NIPALS iterations for each
 #' principal component.
 #'
-#' @param tol Default 1e-9 tolerance for testing convergence of the NIPALS
+#' @param tol Default 1e-6 tolerance for testing convergence of the NIPALS
 #' iterations for each principal component.
 #'
 #' @param startcol Determine the starting column of x for the iterations
