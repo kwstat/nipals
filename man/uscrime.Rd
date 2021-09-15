@@ -4,7 +4,8 @@
 \name{uscrime}
 \alias{uscrime}
 \title{U.S. Crime rates per 100,00 people}
-\format{A data frame with 50 observations on the following 8 variables.
+\format{
+A data frame with 50 observations on the following 8 variables.
 \describe{
   \item{state}{U.S. state}
   \item{murder}{murders}
@@ -14,7 +15,8 @@
   \item{burglary}{burglary}
   \item{larceny}{larceny}
   \item{autotheft}{automobile thefts}
-}}
+}
+}
 \source{
 Documentation Example 3 for PROC HPPRINCOMP.
 http://documentation.sas.com/api/docsets/stathpug/14.2/content/stathpug_code_hppriex3.htm?locale=en

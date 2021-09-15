@@ -65,7 +65,8 @@ test_that("SVD, NIPALS and EMPCA results match for complete uscrime data", {
   # EMPCA vs SVD
   m1e <- empca(dat)
   expect_equal(m1$eig, m1e$eig, tol=1e-3)
-  expect_aligned(m1s$u, m1e$scores)
+  expect_aligned(m1s$u, m1e$scores)  
   expect_aligned(m1s$v, m1e$loadings)
   
 })
+

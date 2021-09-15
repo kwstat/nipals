@@ -13,8 +13,8 @@ This package strives to have the best (fast and accurate) R implementations.
 
 The `empca()` function should be considered **experimental**.  There is a problem using `empca()` on matrices that are both (1) non-full rank (2) have missing values.
 
-Key features:
-  
+## Key features
+
 * Missing values are allowed.
 * Uses Gram-Schmidt to ensure orthogonal principal components.
 * Carefully optimized for speed (`nipals` only).

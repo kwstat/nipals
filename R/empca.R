@@ -125,11 +125,11 @@ empca <- function(x, w,
     # P matrix with random orthonormal columns, nvar*ncomp
     set.seed(seed)
     ranmat <- matrix(rnorm(nobs*ncomp), nrow=nobs, ncol=ncomp)
-    #qrmod <- qr(ranmat)
-    #di <- diag(qr.R(qrmod))
+    # qrmod <- qr(ranmat)
+    # di <- diag(qr.R(qrmod))
     # di <- di/abs(di) # di is vector of +1 and -1. Why needed???
-    #qmat <- qr.Q(qrmod)
-    #P <- qmat %*% diag( di/abs(di) ) %*% qmat
+    # qmat <- qr.Q(qrmod)
+    # P <- qmat %*% diag( di/abs(di) ) %*% qmat
     P <- qr.Q(qr(ranmat))
   }
   P <- P[1:nvar, 1:ncomp]

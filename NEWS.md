@@ -1,3 +1,6 @@
+# nipals 0.8 - Sep 2021
+
+* Fix issue reported by CRAN (#5). Floating-point error created dot product outside [-1,1].
 
 # nipals 0.7 - Jan 2010
 
@@ -12,10 +15,6 @@
 * New (experimental) function `empca()` to calculate principal components via weighted EM PCA.
 
 * Row/column names added to fitted matrix.
-
-* New `startcol` argument can now be a function which is applied to every column.
-
-* There is a slight change to automatic start column selection. By default, the start column is the column with the largest sum of absolute values. (Formerly was largest variance, but this does not make sense when columns are scaled.)
 
 # nipals 0.5 - Oct 2018
 

@@ -1,3 +1,9 @@
+# nipals 0.8
+
+This fixes an error identified by CRAN on Mac M1.  See: https://github.com/kwstat/nipals/issues/5
+
+* Rhub: Mac M1
+
 # nipals 0.7
 
 This is a resubmission. Thanks to Uwe Ligges for patiently explaining the 'Additional issues' caused by --noLD.  I fixed the problem and verified the fix via the Rhub platform "debian-gcc-devel-nold".
