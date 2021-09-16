@@ -18,3 +18,4 @@ vignettes/*.synctex.gz
 vignettes/*.tex
 revdep
 pkgdown
+CRAN-RELEASE
