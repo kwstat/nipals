@@ -1,12 +1,18 @@
+# nipals 0.9 - unpublished
+
+* Add `avg_angular_distance()` function.
+* Add more tests.
+* Switch to MIT license.
+
 # nipals 0.8 - Sep 2021
 
-* Fix issue reported by CRAN (#5). Floating-point error created dot product outside [-1,1].
+* Fix issue (#5). A floating-point error created a dot product outside [-1,1].
 
-# nipals 0.7 - Jan 2010
+# nipals 0.7 - Jan 2020
 
 * Fix 'additional issues' reported by CRAN (#3).
 
-# nipals 0.6 - Jan 2010
+# nipals 0.6 - Jan 2020
 
 * Calculating xhat with `ncomp=1` now works (#2).
 
@@ -30,3 +36,4 @@
 # nipals 0.3 - Nov 2017
 
 * The `nipals()` function was split off from the `gge` package, extensively optimized and compared with implementations in other packages.
+* First release to CRAN.

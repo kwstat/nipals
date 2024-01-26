@@ -17,7 +17,7 @@ if(FALSE){
   
   m4 <- nipals(B2, ncomp=5)
   m4$eig
-  
+
 }
 
 #' Principal component analysis by NIPALS, non-linear iterative partial least squares
@@ -289,3 +289,58 @@ nipals <- function(x,
               center=cmeans, scale=csds)
   return(out)
 }
+
+## ---------------------------------------------------------------------------
+
+
+#' Average angular distance between two rotation matrices
+#'
+#' For matrices A and B, calculate the angle between the column
+#' vectors of A and the corresponding column vectors of B.
+#' Then average the angles.
+#'
+#' The results of the singular value decomposition X=USV' are
+#' unique, but only up to a change of sign for columns of U,
+#' which indicates that the axis is flipped.
+#' 
+#' @param A Matrix
+#' 
+#' @param B Matrix
+#' 
+#' @return
+#' A single floating point number, in radians.
+#' 
+#' @author Kevin Wright
+#' 
+#' @examples
+#' # Example from https://math.stackexchange.com/questions/2113634/
+#' rot1 <- matrix(c(-0.956395958, -0.292073218, 0.000084963,
+#'                  0.292073230, -0.956395931, 0.000227268,
+#'                  0.000014880, 0.000242173, 0.999999971),
+#'                ncol=3, byrow=TRUE)
+#' rot2 <- matrix(c(-0.956227882, -0.292623029, -0.000021887,
+#'                  0.292623030, -0.956227882, -0.000024473,
+#'                  -0.000013768, -0.000029806, 0.999999999),
+#'                ncol=3, byrow=TRUE)
+#' avg_angular_distance(rot1, rot2) # .0004950387
+#' 
+#' @references
+#' None
+#' 
+#' @export 
+avg_angular_distance <- function(A, B){
+  dotprod <- colSums(A*B) / sqrt( colSums(A*A) * colSums(B*B) )
+  
+  # Note: Use abs() so that vectors which point in nearly opposite
+  # directions ( dotprod= -1 ) can be considered as if pointing
+  # in the same direction.
+  # Note: we need to make sure elements of dotprod are not bigger
+  # than 1.0, which sometimes happens due to floating point error.
+  # theta[i] is the angle between A[,i] and B[,i]
+  #theta <- acos( abs(dotprod) - .Machine$double.eps )
+  theta <- acos( pmin( abs(dotprod), 1 ) )
+  # average radian angle between pair-wise columns of A and B
+  avg_angle <- mean(theta)
+  return(avg_angle)
+}
+

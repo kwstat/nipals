@@ -168,27 +168,3 @@ test_that("Predictions from model", {
   # predict(m4, newdata=iris.valid[,1:4])
   
 })
-
-# ----------------------------------------------------------------------------
-## expect_allclose <- function(A, B, rtol=1e-5, atol=1e-8){
-##   # https://docs.scipy.org/doc/numpy/reference/generated/numpy.allclose.html
-##   # a, b, rtol=1e-05, atol=1e-08, equal_nan=False
-##   # Returns True if two arrays are element-wise equal within a tolerance.
-##   # The tolerance values are positive, typically very small numbers.
-##   # The relative difference (rtol * abs(b)) and the absolute difference atol
-##   # are added together to compare against the absolute difference
-##   # between a and b.
-
-##   # If either array contains one or more NaNs, False is returned. Infs are treated as equal if they are in the same place and of the same sign in both arrays.
-
-##   # If the following equation is element-wise True, then allclose returns True.
-##   # absolute(a - b) <= (atol + rtol * absolute(b))
-##   # The above equation is not symmetric in a and b, so that allclose(a, b)
-##   # might be different from allclose(b, a) in some rare cases.
-
-##   diff <- abs(A-B) < (atol + rtol * abs(B))
-##   print(diff)
-##   expect_true(all(diff))
-## }
-## #expect_allclose(m1s$u, m1n$scores, rtol=1e-5, atol=1e-8)
-

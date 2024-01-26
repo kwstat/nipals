@@ -7,7 +7,10 @@ Homepage: https://kwstat.github.io/nipals
 
 Repository: https://github.com/kwstat/nipals
 
-The `nipals` package provides two functions to perform Principal Components Analysis of a matrix. (1) The `nipals` function uses Non-linear Iterative Partial Least Squares. (2) The `empca` function uses EM PCA.
+The `nipals` package provides two functions to perform Principal Components Analysis of a matrix:
+1. The `nipals` function uses Non-linear Iterative Partial Least Squares.
+2. The `empca` function uses EM PCA.
+
 NIPALS has been implemented several times in R packages. EMPCA has previously appeared in python, but is available in R here for the first time.
 This package strives to have the best (fast and accurate) R implementations.
 
@@ -17,7 +20,7 @@ The `empca()` function should be considered **experimental**.  There is a proble
 
 * Missing values are allowed.
 * Uses Gram-Schmidt to ensure orthogonal principal components.
-* Carefully optimized for speed (`nipals` only).
+* Carefully optimized for speed (`nipals` only, not `empca`).
 * Flexible options.
 * Vignettes and unit tests.
 * Weights are allowed (`empca` only).
@@ -44,7 +47,8 @@ dat <- as.matrix(dat[ , -1])
 # Gram-Schmidt corrected NIPALS
 m3 <- nipals(dat)
 
-round(crossprod(m3$loadings),3) # Prin Comps are orthogonal
+# Show that the Principal Components are orthogonal
+round(crossprod(m3$loadings),3)
 ##      PC1 PC2 PC3 PC4 PC5 PC6 PC7
 ##  PC1   1   0   0   0   0   0   0
 ##  PC2   0   1   0   0   0   0   0
@@ -66,7 +70,8 @@ round(m3$loadings,3)
 
 m4 <- empca(dat)
 
-round(crossprod(m4$loadings),3) # Prin Comps are orthogonal
+# Show that the Principal Components are orthogonal
+round(crossprod(m4$loadings),3)
 ##     PC1 PC2 PC3 PC4 PC5 PC6 PC7
 ## PC1   1   0   0   0   0   0   0
 ## PC2   0   1   0   0   0   0   0
@@ -87,3 +92,7 @@ round(m4$loadings,3)
 ## autotheft 0.295  0.478  0.593  0.275  0.461 -0.150  0.150
 
 ```
+
+## See also
+
+A python version of this package can be found at <https://pypi.org/project/nipals/>.

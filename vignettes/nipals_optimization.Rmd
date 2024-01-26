@@ -10,10 +10,6 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # Abstract
 
 These are some notes to document some of the optimization process for the `nipals` function. As such, it is not complete and the R code chunks *cannot be re-run*.
@@ -28,7 +24,7 @@ In this section `x` and `y` are matrices and `v` is a vector.
 
 2. Do not use `cbind` (or `rbind`) to assemble results into a matrix.  Instead, initialize a full matrix of NA values and insert the results into the appropriate column of the matrix.
 
-3. Use `x*x` instead of `x^2`.
+3. Use `x*x` instead of `x^2`. (Not true, R does this automatically).
 
 4. Use `sqrt(x)` instead of `x^0.5`.
 

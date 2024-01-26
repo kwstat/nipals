@@ -16,10 +16,10 @@ Compare nipals/empca with no missing
 Compare nipals/empca with missing, equal weight
 Compare nipals/empca with missing, unequal weight
 
-## Complete data
+## Complete data example
 
 ```{r, eval=FALSE}
-# Python - Coeff (scores)
+# Python: Coeff (scores)
 [[-2.809  0.097  0.244  0.050]
  [-1.834  0.286  0.010 -0.135]
  [-0.809  0.963 -0.341  0.078]
@@ -40,16 +40,16 @@ G5  0.707 -0.723  0.736 -0.024
 G6  1.830 -0.290  0.157  0.030
 G7  3.070  0.796 -0.431 -0.026
 
-# Matlab - P (scores)
+# Matlab: P (scores)
   0.5590   0.0517   0.2210   0.2910
   0.3650   0.1520   0.0095  -0.7840
   0.1610   0.5120  -0.3080   0.4530
   0.0309  -0.6010   0.4950   0.1510
  -0.1410  -0.3850  -0.6640  -0.1380
  -0.3650  -0.1540  -0.1420   0.1760
--0.6110   0.4230   0.3890  -0.1490
+ -0.6110   0.4230   0.3890  -0.1490
 
-# R round(m1e$scores, 3)
+# R: round(m1e$scores, 3)
       PC1    PC2    PC3    PC4
 G1 -0.559 -0.052  0.221 -0.291
 G2 -0.365 -0.152  0.009  0.784
@@ -60,7 +60,7 @@ G6  0.365  0.154 -0.142 -0.176
 G7  0.611 -0.423  0.389  0.149
 ```
 
-## Missing data
+## Missing data example
 
 ```
 # Python with initial Identity matrix
@@ -135,5 +135,5 @@ The Matlab code calculates principal components sequentially, one at time. For e
 1. Calculate C[,h]
 2. Calculate P[,h]
 
-While this is a type of EM algorithm, it is not the algorithm described by Bailey (2012) and is considered further.
+While this is a type of EM algorithm, it is NOT the algorithm described by Bailey (2012) and is considered further.
 
