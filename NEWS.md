@@ -3,16 +3,19 @@
 * Add `avg_angular_distance()` function.
 * Add more tests.
 * Switch to MIT license.
+* Documentation via Github Actions.
 
-# nipals 0.8 - Sep 2021
+# nipals 0.8 (2021-08-01)
 
 * Fix issue (#5). A floating-point error created a dot product outside [-1,1].
 
-# nipals 0.7 - Jan 2020
+
+# nipals 0.7 (2020-01-24)
 
 * Fix 'additional issues' reported by CRAN (#3).
 
-# nipals 0.6 - Jan 2020
+
+# nipals 0.6 (2020-01-01)
 
 * Calculating xhat with `ncomp=1` now works (#2).
 
@@ -22,7 +25,8 @@
 
 * Row/column names added to fitted matrix.
 
-# nipals 0.5 - Oct 2018
+
+# nipals 0.5 (2018-10-24)
 
 * Row/column names added to fitted matrix.
 
@@ -30,10 +34,10 @@
 
 * There is a slight change to automatic start column selection. By default, the start column is the column with the largest sum of absolute values. (Formerly, the start column was the column with the largest variance, but this does not make sense when columns are scaled.)
 
-# nipals 0.4 - Feb 2018
+# nipals 0.4 (2018-02-11)
 
 
-# nipals 0.3 - Nov 2017
+# nipals 0.3 (2017-11-14)
 
 * The `nipals()` function was split off from the `gge` package, extensively optimized and compared with implementations in other packages.
 * First release to CRAN.

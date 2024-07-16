@@ -19,3 +19,4 @@ vignettes/*.tex
 revdep
 pkgdown
 CRAN-RELEASE
+docs
