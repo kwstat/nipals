@@ -2,8 +2,9 @@
 title: "EMPCA notes"
 author: "Kevin Wright"
 date: "16 Mar 2019"
-output:
-  rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    md_extensions: -autolink_bare_uris
 bibliography: nipals.bib
 vignette: >
   %\VignetteIndexEntry{EMPCA notes} 

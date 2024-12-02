@@ -1,9 +1,15 @@
-# nipals 0.9 - unpublished
+# nipals 1.0 (2024-12-02)
 
 * Add `avg_angular_distance()` function.
+
 * Add more tests.
+
 * Switch to MIT license.
-* Documentation via Github Actions.
+
+* Documentation pages now created via Github Actions.
+
+* Clarify that `nipals()` returns ` T*Lambda*P' `.
+
 
 # nipals 0.8 (2021-08-01)
 
@@ -34,10 +40,12 @@
 
 * There is a slight change to automatic start column selection. By default, the start column is the column with the largest sum of absolute values. (Formerly, the start column was the column with the largest variance, but this does not make sense when columns are scaled.)
 
+
 # nipals 0.4 (2018-02-11)
 
 
 # nipals 0.3 (2017-11-14)
 
 * The `nipals()` function was split off from the `gge` package, extensively optimized and compared with implementations in other packages.
+
 * First release to CRAN.

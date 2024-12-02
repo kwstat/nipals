@@ -22,11 +22,14 @@ if(FALSE){
 
 #' Principal component analysis by NIPALS, non-linear iterative partial least squares
 #'
-#' Used for finding principal components of a numeric matrix.
+#' Used for finding principal components of a numeric matrix x.
 #' Missing values in the matrix are allowed.
 #' Principal Components are extracted one a time.  
-#' The algorithm computes x = TP', where T is the 'scores' matrix and P is
-#' the 'loadings' matrix.
+#' This algorithm computes x = TLP', where T is the scores matrix,
+#' L (Lambda) is the eigenvalue vector, and P is the loadings matrix.
+#'
+#' CAUTION: Different R package functions do different things with the
+#' L matrix. For example, some functions include L in T.
 #'
 #' The R2 values that are reported are marginal, not cumulative.
 #' 

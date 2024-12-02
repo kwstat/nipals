@@ -1,4 +1,21 @@
-# nipals 0.8 -----
+# nipals 1.0
+
+## Test environments
+
+* local: Windows 11, R 4.4.2
+* Win-builder: R-devel
+* Win-builder: R-old
+
+All OK.
+
+## Reverse dependency check
+
+Checked by hand: areabiplot, gge, powerPLS.
+
+All OK.
+
+
+# nipals 0.8
 
 This fixes an error identified by CRAN on Mac M1.  See: https://github.com/kwstat/nipals/issues/5
 
@@ -19,7 +36,7 @@ No errors or warnings.
 Not checked because there were no changes to R code, only in unit tests.
 
 
-# nipals 0.7 -----
+# nipals 0.7
 
 This is a resubmission. Thanks to Uwe Ligges for patiently explaining the 'Additional issues' caused by --noLD.  I fixed the problem and verified the fix via the Rhub platform "debian-gcc-devel-nold".
 
@@ -44,7 +61,7 @@ This abbreviation is correctly spelled.
 gge: Checked, no problems.
 
 
-# nipals 0.4 -----
+# nipals 0.4
 
 ## Test environments
 

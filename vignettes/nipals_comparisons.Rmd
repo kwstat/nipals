@@ -11,7 +11,6 @@ vignette: >
 ---
 
 There are at least 5 R packages with a function for performing NIPALS on a matrix that contains missing values:
->>>>>>> empca
 
 1. `ade4::nipals`
 2. `mixOmics::nipals`

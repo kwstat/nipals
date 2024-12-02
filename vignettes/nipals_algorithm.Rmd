@@ -76,6 +76,7 @@ Because of the accumulation of floating-point errors, the orthogonality of the p
 $$
 \bf p_c = p - P_{1:h} P_{1:h}' p
 $$
+
 and
 
 $$
