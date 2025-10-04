@@ -2,7 +2,7 @@
 % Please edit documentation in R/empca.R
 \name{empca}
 \alias{empca}
-\title{Principal component analysis by weighted EMPCA, expectation maximization 
+\title{Principal component analysis by weighted EMPCA, expectation maximization
 principal component-analysis}
 \usage{
 empca(
@@ -20,7 +20,7 @@ empca(
 )
 }
 \arguments{
-\item{x}{Numerical matrix for which to find principal components. 
+\item{x}{Numerical matrix for which to find principal components.
 Missing values are allowed.}
 
 \item{w}{Numerical matrix of weights.}
@@ -41,21 +41,21 @@ iterations for each principal component.}
 
 \item{fitted}{Default FALSE. If TRUE, return the fitted (reconstructed) value of x.}
 
-\item{gramschmidt}{Default TRUE. If TRUE, perform Gram-Schmidt 
+\item{gramschmidt}{Default TRUE. If TRUE, perform Gram-Schmidt
 orthogonalization at each iteration.}
 
 \item{verbose}{Default FALSE. Use TRUE or 1 to show some diagnostics.}
 }
 \value{
-A list with components \code{eig}, \code{scores}, \code{loadings}, 
-\code{fitted}, \code{ncomp}, \code{R2}, \code{iter}, \code{center}, 
+A list with components \code{eig}, \code{scores}, \code{loadings},
+\code{fitted}, \code{ncomp}, \code{R2}, \code{iter}, \code{center},
 \code{scale}.
 }
 \description{
 Used for finding principal components of a numeric matrix.
 Missing values in the matrix are allowed.
 Weights for each element of the matrix are allowed.
-Principal Components are extracted one a time.  
+Principal Components are extracted one a time.
 The algorithm computes x = TP', where T is the 'scores' matrix and P is
 the 'loadings' matrix.
 }
@@ -80,7 +80,7 @@ p2 = empca(B2, fitted=TRUE)
 
 }
 \references{
-Stephen Bailey (2012). 
+Stephen Bailey (2012).
 Principal Component Analysis with Noisy and/or Missing Data.
 Publications of the Astronomical Society of the Pacific.
 http://doi.org/10.1086/668105

@@ -19,7 +19,7 @@ nipals(
 )
 }
 \arguments{
-\item{x}{Numerical matrix for which to find principal compontents. 
+\item{x}{Numerical matrix for which to find principal compontents.
 Missing values are allowed.}
 
 \item{ncomp}{Maximum number of principal components to extract from x.}
@@ -46,20 +46,20 @@ with the maximum value of the function.}
 \item{force.na}{Default FALSE. If TRUE, force the function to use the
 method for missing values, even if there are no missing values in x.}
 
-\item{gramschmidt}{Default TRUE. If TRUE, perform Gram-Schmidt 
+\item{gramschmidt}{Default TRUE. If TRUE, perform Gram-Schmidt
 orthogonalization at each iteration.}
 
 \item{verbose}{Default FALSE. Use TRUE or 1 to show some diagnostics.}
 }
 \value{
-A list with components \code{eig}, \code{scores}, \code{loadings}, 
-\code{fitted}, \code{ncomp}, \code{R2}, \code{iter}, \code{center}, 
+A list with components \code{eig}, \code{scores}, \code{loadings},
+\code{fitted}, \code{ncomp}, \code{R2}, \code{iter}, \code{center},
 \code{scale}.
 }
 \description{
 Used for finding principal components of a numeric matrix x.
 Missing values in the matrix are allowed.
-Principal Components are extracted one a time.  
+Principal Components are extracted one a time.
 This algorithm computes x = TLP', where T is the scores matrix,
 L (Lambda) is the eigenvalue vector, and P is the loadings matrix.
 }

@@ -1,3 +1,7 @@
+# nipals 1.1 ()
+
+* Use Air formatter
+
 # nipals 1.0 (2024-12-02)
 
 * Add `avg_angular_distance()` function.
