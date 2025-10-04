@@ -131,7 +131,7 @@ the data which divides by <code>n</code> instead of <code>n-1</code>, so
 we need to scale the data by hand before using the <code>nipals</code>
 package. Note: only for ade4 version &gt;= 1.7-10.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://pbil.univ-lyon1.fr/ADE-4/" class="external-link">ade4</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://adeverse.github.io/ade4/" class="external-link">ade4</a></span><span class="op">)</span></span>
 <span><span class="va">made</span> <span class="op">&lt;-</span> <span class="fu">ade4</span><span class="fu">::</span><span class="fu">nipals</span><span class="op">(</span><span class="va">B2</span>, nf<span class="op">=</span><span class="fl">5</span>, rec<span class="op">=</span><span class="cn">TRUE</span>, niter<span class="op">=</span><span class="fl">500</span>, tol<span class="op">=</span><span class="fl">1e-9</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">B2a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">B2</span>, <span class="fl">2</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
@@ -170,7 +170,7 @@ singular values divided by
 <h2 id="plsdepot">plsdepot<a class="anchor" aria-label="anchor" href="#plsdepot"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">plsdepot</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gastonstat/plsdepot/" class="external-link">plsdepot</a></span><span class="op">)</span></span>
 <span><span class="va">mpls</span> <span class="op">&lt;-</span> <span class="fu">plsdepot</span><span class="fu">::</span><span class="fu">nipals</span><span class="op">(</span><span class="va">B2</span>, comps<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kwstat.github.io/nipals/">nipals</a></span><span class="op">)</span></span>
 <span><span class="va">mnip</span> <span class="op">&lt;-</span> <span class="fu">nipals</span><span class="fu">::</span><span class="fu"><a href="../reference/nipals.html">nipals</a></span><span class="op">(</span><span class="va">B2a</span>, ncomp<span class="op">=</span><span class="fl">5</span>, maxiter<span class="op">=</span><span class="fl">100</span>, tol<span class="op">=</span><span class="fl">1e-6</span>, gramschmidt<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -291,7 +291,7 @@ tentative:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
