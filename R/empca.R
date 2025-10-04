@@ -288,7 +288,7 @@ solve_weighted <- function(A, b, wt) {
   # coef(lm(y~ -1 + X))
   # coef(lm.fit(X,y)) is same as:
   # solve(t(X)%*%X) %*% t(X)%*%y
-  
+
   #coef(lm(x[i,] ~ -1 + P))
   #lm.fit(P, x[i,])$coef
   #splom(cbind(x[i,],P), type=c("p","r")) # bottom row
