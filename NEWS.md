@@ -1,6 +1,7 @@
 # nipals 1.1 ()
 
 * Use Air formatter
+* Reviewed by Claude Opus.
 
 # nipals 1.0 (2024-12-02)
 

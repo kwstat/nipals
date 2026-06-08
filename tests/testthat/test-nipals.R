@@ -36,16 +36,16 @@ colnames(B_miss) <- c("E1", "E2", "E3", "E4", "E5")
 ## ---------------------------------------------------------------------------
 
 test_that("For complete-data matrix, fitted values match original data", {
-  m1 <- nipals(B_full, center = TRUE, scale = TRUE, fitted = TRUE, tol = 1e-8)
+  m1 <- nipals(B_full, center = TRUE, scale = TRUE, fitted = TRUE, tol = 1e-9)
   expect_equal(round(m1$fitted, 3), B_full)
 
-  m2 <- nipals(B_full, center = TRUE, scale = FALSE, tol = 1e-8, fitted = TRUE)
+  m2 <- nipals(B_full, center = TRUE, scale = FALSE, tol = 1e-9, fitted = TRUE)
   expect_equal(round(m2$fitted, 3), B_full)
 
-  m3 <- nipals(B_full, center = FALSE, scale = FALSE, tol = 1e-8, fitted = TRUE)
+  m3 <- nipals(B_full, center = FALSE, scale = FALSE, tol = 1e-9, fitted = TRUE)
   expect_equal(round(m3$fitted, 3), B_full)
 
-  m4 <- nipals(B_full, center = FALSE, scale = TRUE, tol = 1e-8, fitted = TRUE)
+  m4 <- nipals(B_full, center = FALSE, scale = TRUE, tol = 1e-9, fitted = TRUE)
   expect_equal(round(m4$fitted, 3), B_full)
 })
 
@@ -212,3 +212,4 @@ test_that("avg_angular_distance", {
                  ncol=3, byrow=TRUE)
   expect_equal(avg_angular_distance(rot1, rot2), .0004950387)
 })
+

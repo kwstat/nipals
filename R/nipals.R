@@ -58,6 +58,7 @@ if (FALSE) {
 #'
 #' @param force.na Default FALSE. If TRUE, force the function to use the
 #' method for missing values, even if there are no missing values in x.
+#' Mainly used for testing.
 #'
 #' @param gramschmidt Default TRUE. If TRUE, perform Gram-Schmidt
 #' orthogonalization at each iteration.
@@ -129,13 +130,18 @@ nipals <- function(
   x.orig <- x # Save x for row/col names
 
   # Check for a column or row with all NAs
-  col.na.count <- apply(x, 2, function(x) sum(!is.na(x)))
-  if (any(col.na.count == 0)) {
+  col.nonna.count <- apply(x, 2, function(x) sum(!is.na(x)))
+  if (any(col.nonna.count == 0)) {
     stop("At least one column is all NAs")
   }
-  row.na.count <- apply(x, 1, function(x) sum(!is.na(x)))
-  if (any(row.na.count == 0)) {
+  row.nonna.count <- apply(x, 1, function(x) sum(!is.na(x)))
+  if (any(row.nonna.count == 0)) {
     stop("At least one row is all NAs")
+  }
+  # Check for a column with zero variance
+  col.var <- apply(x, 2, var, na.rm = TRUE)
+  if (any(col.var == 0)) {
+    stop("At least one column has zero variance")
   }
 
   # center / scale
@@ -147,6 +153,9 @@ nipals <- function(
   }
   if (scale) {
     csds <- apply(x, 2, sd, na.rm = TRUE)
+    if(any(csds == 0)) {
+      stop("At least one column has zero standard deviation")
+    }
     x <- sweep(x, 2, csds, "/")
   } else {
     csds <- NA
@@ -155,8 +164,8 @@ nipals <- function(
   TotalSS <- sum(x * x, na.rm = TRUE)
 
   # initialize outputs
-  PPp = matrix(0, nrow = nvar, ncol = nvar)
-  TTp = matrix(0, nrow = nobs, ncol = nobs)
+  PPp <- matrix(0, nrow = nvar, ncol = nvar)
+  TTp <- matrix(0, nrow = nobs, ncol = nobs)
   eig <- rep(NA, length = ncomp)
   R2cum <- rep(NA, length = ncomp)
   loadings <- matrix(nrow = nvar, ncol = ncomp)
@@ -182,7 +191,7 @@ nipals <- function(
     } else {
       scol <- startcol
     }
-    if (verbose >= 1) {
+    if (verbose == 1) {
       cat("PC ", h, " starting column: ", scol, sep = "")
     }
 
@@ -210,7 +219,7 @@ nipals <- function(
         # for that or just let it fail?
         ph <- crossprod(x0, th) / colSums(T2)
       } else {
-        ph = crossprod(x, th) / sum(th * th)
+        ph <- crossprod(x, th) / sum(th * th)
       }
 
       # Gram Schmidt orthogonalization p = p - PhPh'p
@@ -227,9 +236,9 @@ nipals <- function(
         # extract the non-missing (in each column of X), and sum
         P2 <- matrix(ph * ph, nrow = nvar, ncol = nobs)
         P2[t(x.miss)] <- 0
-        th = x0 %*% ph / colSums(P2)
+        th <- x0 %*% ph / colSums(P2)
       } else {
-        th = x %*% ph / sum(ph * ph)
+        th <- x %*% ph / sum(ph * ph)
       }
 
       # Gram Schmidt orthogonalization # t = t - (Th)(Th)' t
@@ -238,19 +247,29 @@ nipals <- function(
       }
 
       # check convergence of th
-      if (sum((th - th.old)^2, na.rm = TRUE) < tol) {
-        continue = FALSE
+      #if (sum((th - th.old)^2, na.rm = TRUE) < tol) {
+      #  continue <- FALSE
+      #}
+      # Claude Opus suggested normalizing to unit length so that the scale
+      # of the data does not affect the convergence test.
+      norm_th     <- sqrt(sum(th * th, na.rm = TRUE))
+      norm_th_old <- sqrt(sum(th.old * th.old, na.rm = TRUE))
+      if (norm_th > 0 && norm_th_old > 0) {
+        if (sum((th / norm_th - th.old / norm_th_old)^2, na.rm = TRUE) < tol) {
+          continue <- FALSE
+        }
       }
 
-      pciter <- pciter + 1
       if (pciter == maxiter) {
         continue <- FALSE
         warning("Stopping after ", maxiter, " iterations for PC ", h, ".\n")
+      } else {
+        pciter <- pciter + 1
       }
 
-      if (verbose >= 1) cat(".")
+      if (verbose == 1) cat(".")
     } # iterations for PC h
-    if (verbose >= 1) {
+    if (verbose == 1) {
       cat("\n")
     }
 
@@ -263,8 +282,8 @@ nipals <- function(
 
     # Update (Ph)(Ph)' and (Th)(Th)' for next PC
     if (gramschmidt) {
-      PPp = PPp + tcrossprod(ph) # PP' = PP' + (ph)(ph)'
-      TTp = TTp + tcrossprod(th) / eig[h] # TT' = TT' = (th)(th)'
+      PPp <- PPp + tcrossprod(ph) # PP' = PP' + (ph)(ph)'
+      TTp <- TTp + tcrossprod(th) / eig[h] # TT' = TT' + (th)(th)'
     }
 
     # Cumulative proportion of variance explained
@@ -275,8 +294,8 @@ nipals <- function(
   R2 <- c(R2cum[1], diff(R2cum))
 
   # sweep out eigenvalues from scores
-  eig = sqrt(eig)
-  scores = sweep(scores, 2, eig, "/")
+  eig <- sqrt(eig)
+  scores <- sweep(scores, 2, eig, "/")
 
   if (fitted) {
     # re-construction of x using ncomp principal components
@@ -295,9 +314,9 @@ nipals <- function(
     xhat <- NULL
   }
 
-  rownames(scores) <- rownames(x)
+  rownames(scores) <- rownames(x.orig)
   colnames(scores) <- paste("PC", 1:ncol(scores), sep = "")
-  rownames(loadings) <- colnames(x)
+  rownames(loadings) <- colnames(x.orig)
   colnames(loadings) <- paste("PC", 1:ncol(loadings), sep = "")
 
   out <- list(

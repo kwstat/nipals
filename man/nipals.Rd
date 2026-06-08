@@ -44,7 +44,8 @@ with the maximum value of the function.}
 \item{fitted}{Default FALSE. If TRUE, return the fitted (reconstructed) value of x.}
 
 \item{force.na}{Default FALSE. If TRUE, force the function to use the
-method for missing values, even if there are no missing values in x.}
+method for missing values, even if there are no missing values in x.
+Mainly used for testing.}
 
 \item{gramschmidt}{Default TRUE. If TRUE, perform Gram-Schmidt
 orthogonalization at each iteration.}

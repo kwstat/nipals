@@ -45,9 +45,9 @@ colnames(sas_loadings) <- paste0("PC", 1:7)
 ## ---------------------------------------------------------------------------
 
 test_that("NIPALS decomposition of uscrime data matches SAS results", {
-  m1 <- nipals(dat) # complete-data method
+  m1 <- nipals(dat, tol = 1e-8) # complete-data  method
 
-  m2 <- nipals(dat, force.na = TRUE) # use the missing-data method
+  m2 <- nipals(dat, force.na = TRUE, tol = 1e-8) # use the missing-data method
 
   expect_equal(as.vector(m1$center), sas_mean)
   expect_equal(as.vector(m1$scale), sas_sd, tol = 1e-5)
