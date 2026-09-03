@@ -95,31 +95,31 @@ test_that("Estimate fitted values for NAs", {
 
 test_that("Code coverage of nipals function arguments", {
   library(nipals)
-  Bnarow = B_full
-  Bnarow[1, ] = NA
+  Bnarow <- B_full
+  Bnarow[1, ] <- NA
   expect_error(nipals(Bnarow))
-  Bnacol = B_full
-  Bnacol[, 1] = NA
+  Bnacol <- B_full
+  Bnacol[, 1] <- NA
   expect_error(nipals(Bnacol))
 
   # ncomp
-  m1 = nipals(B_miss, ncomp = 1)
+  m1 <- nipals(B_miss, ncomp = 1)
 
   # center/scale
-  m1 = nipals(B_miss, center = FALSE, scale = FALSE)
-  m1 = nipals(B_miss, center = TRUE, scale = FALSE)
-  m1 = nipals(B_miss, center = TRUE, scale = TRUE)
+  m1 <- nipals(B_miss, center = FALSE, scale = FALSE)
+  m1 <- nipals(B_miss, center = TRUE, scale = FALSE)
+  m1 <- nipals(B_miss, center = TRUE, scale = TRUE)
 
   # maxiter
   expect_warning(nipals(B_full, maxiter = 2))
 
   # tol
-  m1 = nipals(B_miss, tol = 1e-1, verbose = TRUE)
-  m1 = nipals(B_miss, tol = 1e-10, verbose = TRUE)
+  m1 <- nipals(B_miss, tol = 1e-1, verbose = TRUE)
+  m1 <- nipals(B_miss, tol = 1e-10, verbose = TRUE)
 
   # startcol
-  m1 = nipals(B_full, startcol = 0, verbose = TRUE)
-  m1 = nipals(B_full, startcol = 5, verbose = TRUE)
+  m1 <- nipals(B_full, startcol = 0, verbose = TRUE)
+  m1 <- nipals(B_full, startcol = 5, verbose = TRUE)
 
   # fitted
   expect_null(nipals(B_full)$fitted)
@@ -127,17 +127,17 @@ test_that("Code coverage of nipals function arguments", {
   expect_false(is.null(nipals(B_full, fitted = TRUE)$fitted))
 
   # force.na
-  m1 = nipals(B_full, force.na = FALSE)
-  m1 = nipals(B_full, force.na = TRUE)
+  m1 <- nipals(B_full, force.na = FALSE)
+  m1 <- nipals(B_full, force.na = TRUE)
 
   # gramschmidt
-  m1 = nipals(B_miss, gramschmidt = FALSE) # default
+  m1 <- nipals(B_miss, gramschmidt = FALSE) # default
   round(crossprod(m1$loadings), 3) # 1 on diagonal, but not identity
-  m2 = nipals(B_miss, gramschmidt = TRUE)
+  m2 <- nipals(B_miss, gramschmidt = TRUE)
   round(crossprod(m2$loadings), 3) # should be identity 5x5
 
   # verbose
-  m1 = nipals(B_full, verbose = TRUE)
+  m1 <- nipals(B_full, verbose = TRUE)
 })
 
 test_that("Start column function", {
@@ -151,8 +151,8 @@ test_that("Start column function", {
                       NA, 20.72, 17.8, 18.55, 19.56, 20.01, 20.05, 17.18,
                       16.29, 17.41, 15.86, 15.7, 17.84, 24.1, 27.02, 26.76,
                       26, 26.02, 20.63, 20.37, 21.17, 21.55, 19.12),
-                    .Dim = c(5L, 13L),
-                    .Dimnames = list(c("G1", "G2", "G3", "G4", "G5"),
+                    dim = c(5L, 13L),
+                    dimnames = list(c("G1", "G2", "G3", "G4", "G5"),
                                      c("E01", "E02", "E03", "E04", "E05",
                                        "E06", "E07", "E08", "E09", "E10",
                                        "E11", "E12", "E13")))
@@ -176,7 +176,7 @@ test_that("Calculate predictions from model", {
     c(-2.1634, -2.45126, -2.53552, -2.32751, -2.41099, 
       -0.8063, -0.52704, -0.18264, 0.02092, -1.26167, 0.26757, -0.01858, 
       -0.31982, 0.10316, -0.10626, -0.09459, -0.02626, 0.03138, 0.02455, 
-      0.0337), .Dim = 5:4, .Dimnames = list(c("2", "3", "7", "8", "9"),
+      0.0337), dim = 5:4, dimnames = list(c("2", "3", "7", "8", "9"),
                                             c("PC1", "PC2", "PC3", "PC4")))
 
   # Method 1: Assign a class to the nipals model
@@ -212,4 +212,3 @@ test_that("avg_angular_distance", {
                  ncol=3, byrow=TRUE)
   expect_equal(avg_angular_distance(rot1, rot2), .0004950387)
 })
-

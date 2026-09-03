@@ -3,7 +3,9 @@
 export(avg_angular_distance)
 export(empca)
 export(nipals)
-importFrom(stats,lm.wfit)
-importFrom(stats,rnorm)
-importFrom(stats,sd)
-importFrom(stats,var)
+importFrom(stats,
+  lm.wfit,
+  rnorm,
+  sd,
+  var
+)

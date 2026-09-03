@@ -1,3 +1,27 @@
+# nipals 1.1
+
+Fix CRAN check notes.
+
+## test environments
+
+* local R 4.6.1 Windows 11
+* winbuilder r-devel
+* winbuilder r-release
+
+## revdepcheck results
+
+We checked 3 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 0 new problems
+ * We failed to check 1 packages
+
+Issues with CRAN packages are summarised below.
+
+### Failed to check
+
+* powerPLS (NA)
+
+
 # nipals 1.0
 
 ## Test environments
