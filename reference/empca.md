@@ -1,0 +1,115 @@
+# Principal component analysis by weighted EMPCA, expectation maximization principal component-analysis
+
+Used for finding principal components of a numeric matrix. Missing
+values in the matrix are allowed. Weights for each element of the matrix
+are allowed. Principal Components are extracted one a time. The
+algorithm computes x = TP', where T is the 'scores' matrix and P is the
+'loadings' matrix.
+
+## Usage
+
+``` r
+empca(
+  x,
+  w,
+  ncomp = min(nrow(x), ncol(x)),
+  center = TRUE,
+  scale = TRUE,
+  maxiter = 100,
+  tol = 1e-06,
+  seed = NULL,
+  fitted = FALSE,
+  gramschmidt = TRUE,
+  verbose = FALSE
+)
+```
+
+## Arguments
+
+- x:
+
+  Numerical matrix for which to find principal components. Missing
+  values are allowed.
+
+- w:
+
+  Numerical matrix of weights.
+
+- ncomp:
+
+  Maximum number of principal components to extract from x.
+
+- center:
+
+  If TRUE, subtract the mean from each column of x before PCA.
+
+- scale:
+
+  if TRUE, divide the standard deviation from each column of x before
+  PCA.
+
+- maxiter:
+
+  Maximum number of EM iterations for each principal component.
+
+- tol:
+
+  Default 1e-6 tolerance for testing convergence of the EM iterations
+  for each principal component.
+
+- seed:
+
+  Random seed to use when initializing the random rotation matrix.
+
+- fitted:
+
+  Default FALSE. If TRUE, return the fitted (reconstructed) value of x.
+
+- gramschmidt:
+
+  Default TRUE. If TRUE, perform Gram-Schmidt orthogonalization at each
+  iteration.
+
+- verbose:
+
+  Default FALSE. Use TRUE or 1 to show some diagnostics.
+
+## Value
+
+A list with components `eig`, `scores`, `loadings`, `fitted`, `ncomp`,
+`R2`, `iter`, `center`, `scale`.
+
+## References
+
+Stephen Bailey (2012). Principal Component Analysis with Noisy and/or
+Missing Data. Publications of the Astronomical Society of the Pacific.
+http://doi.org/10.1086/668105
+
+## Author
+
+Kevin Wright
+
+## Examples
+
+``` r
+B <- matrix(c(50, 67, 90, 98, 120,
+              55, 71, 93, 102, 129,
+              65, 76, 95, 105, 134,
+              50, 80, 102, 130, 138,
+              60, 82, 97, 135, 151,
+              65, 89, 106, 137, 153,
+              75, 95, 117, 133, 155), ncol=5, byrow=TRUE)
+rownames(B) <- c("G1","G2","G3","G4","G5","G6","G7")
+colnames(B) <- c("E1","E2","E3","E4","E5")
+dim(B) # 7 x 5
+#> [1] 7 5
+p1 <- empca(B)
+dim(p1$scores) # 7 x 5
+#> [1] 7 5
+dim(p1$loadings) # 5 x 5
+#> [1] 5 5
+
+B2 = B
+B2[1,1] = B2[2,2] = NA
+p2 = empca(B2, fitted=TRUE)
+```
