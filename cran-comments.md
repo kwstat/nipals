@@ -1,6 +1,7 @@
-# nipals 1.1
+# nipals 1.2
 
-Fix CRAN check notes.
+* Fix CRAN check NOTEs.
+* Fix Reverse Dependency ERROR (from powerPCA package).
 
 ## test environments
 
@@ -10,16 +11,11 @@ Fix CRAN check notes.
 
 ## revdepcheck results
 
-We checked 3 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 6 reverse dependencies (3 from CRAN + 3 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
 
  * We saw 0 new problems
- * We failed to check 1 packages
+ * We failed to check 0 packages
 
-Issues with CRAN packages are summarised below.
-
-### Failed to check
-
-* powerPLS (NA)
 
 
 # nipals 1.0

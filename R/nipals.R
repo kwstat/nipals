@@ -138,10 +138,12 @@ nipals <- function(
   if (any(row.nonna.count == 0)) {
     stop("At least one row is all NAs")
   }
-  # Check for a column with zero variance
-  col.var <- apply(x, 2, var, na.rm = TRUE)
-  if (any(col.var == 0)) {
-    stop("At least one column has zero variance")
+  # If nrow > 1, check for a column with zero variance
+  if (nrow(x) > 1) {
+    col.var <- apply(x, 2, var, na.rm = TRUE)
+    if (any(col.var == 0)) {
+      stop("At least one column has zero variance")
+    }
   }
 
   # center / scale

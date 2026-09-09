@@ -1,6 +1,9 @@
-# nipals 1.1 ()
+# nipals 1.2 (2026-09-08)
+
+* Fix CRAN check notes.
 
 * Use Air formatter
+
 * Reviewed by Claude Opus.
 
 

@@ -212,3 +212,14 @@ test_that("avg_angular_distance", {
                  ncol=3, byrow=TRUE)
   expect_equal(avg_angular_distance(rot1, rot2), .0004950387)
 })
+
+# Problem uncovered by powerPCA:
+#' datas <- simulatePilotData(nvar = 30, clus.size = c(5,5),m = 6,nvar_rel = 5,A = 2)
+#' out <- AUCTest(X = datas$X, Y = datas$Y, A = 1)
+#' Not a very interesting test case, because it is using a 1x1 matrix.
+test_that("1x1 matrix", {
+  m1 <- nipals(matrix(42, nrow = 1, ncol = 1), center = FALSE, scale = FALSE)
+  expect_equal(m1$eig, 42)
+  expect_equal(matrix(m1$scores), matrix(1, nrow = 1, ncol = 1))
+  expect_equal(matrix(m1$loadings), matrix(1, nrow = 1, ncol = 1))
+})
