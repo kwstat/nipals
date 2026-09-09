@@ -12,12 +12,12 @@ Source:
 
 Wright K (2026). *nipals: Principal Components Analysis using NIPALS or
 Weighted EMPCA, with Gram-Schmidt Orthogonalization*. R package version
-1.1, <https://kwstat.github.io/nipals/>.
+1.2, <https://kwstat.github.io/nipals/>.
 
     @Manual{,
       title = {nipals: Principal Components Analysis using NIPALS or Weighted EMPCA, with Gram-Schmidt Orthogonalization},
       author = {Kevin Wright},
       year = {2026},
-      note = {R package version 1.1},
+      note = {R package version 1.2},
       url = {https://kwstat.github.io/nipals/},
     }
