@@ -1,8 +1,8 @@
 Package: nipals
 Title: Principal Components Analysis using NIPALS or Weighted EMPCA, with
     Gram-Schmidt Orthogonalization
-Version: 1.2
-Authors@R: 
+Version: 1.3
+Authors@R:
     person("Kevin", "Wright", , "kw.stat@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-0617-8673"))
 Description: Principal Components Analysis of a matrix using Non-linear
@@ -12,13 +12,13 @@ Description: Principal Components Analysis of a matrix using Non-linear
 License: MIT + file LICENSE
 URL: https://kwstat.github.io/nipals/
 BugReports: https://github.com/kwstat/nipals/issues
-Depends: 
+Depends:
     R (>= 3.4.0)
-Suggests: 
+Suggests:
     knitr,
     rmarkdown,
     testthat
-VignetteBuilder: 
+VignetteBuilder:
     knitr
 Encoding: UTF-8
 LazyData: true

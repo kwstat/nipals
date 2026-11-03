@@ -1,3 +1,7 @@
+# nipals 1.3 (2026-11-03)
+
+* Fix rep()'s partial argument match of 'length' to 'length.out' in nipals.R.
+
 # nipals 1.2 (2026-09-08)
 
 * Fix CRAN check notes.
