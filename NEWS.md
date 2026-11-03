@@ -1,3 +1,7 @@
+# nipals 1.3 ()
+
+*
+
 # nipals 1.2 (2026-09-08)
 
 * Fix CRAN check notes.

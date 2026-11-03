@@ -168,11 +168,11 @@ nipals <- function(
   # initialize outputs
   PPp <- matrix(0, nrow = nvar, ncol = nvar)
   TTp <- matrix(0, nrow = nobs, ncol = nobs)
-  eig <- rep(NA, length = ncomp)
-  R2cum <- rep(NA, length = ncomp)
+  eig <- rep(NA, length.out = ncomp)
+  R2cum <- rep(NA, length.out = ncomp)
   loadings <- matrix(nrow = nvar, ncol = ncomp)
   scores <- matrix(nrow = nobs, ncol = ncomp)
-  iter <- rep(NA, length = ncomp)
+  iter <- rep(NA, length.out = ncomp)
 
   # position of NAs
   x.miss <- is.na(x)
