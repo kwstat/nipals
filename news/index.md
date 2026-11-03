@@ -1,5 +1,9 @@
 # Changelog
 
+## nipals 1.3 ()
+
+- 
+
 ## nipals 1.2 (2026-09-08)
 
 CRAN release: 2026-09-09
